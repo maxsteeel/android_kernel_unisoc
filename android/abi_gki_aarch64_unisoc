@@ -20,6 +20,8 @@
   __arch_copy_in_user
   __arch_copy_to_user
   arch_timer_read_counter
+  argv_free
+  argv_split
   arm64_const_caps_ready
   arp_tbl
   atomic_notifier_call_chain
@@ -68,7 +70,6 @@
   cdev_device_add
   cdev_device_del
   cdev_init
-  __cfi_slowpath
   __check_object_size
   __class_create
   class_destroy
