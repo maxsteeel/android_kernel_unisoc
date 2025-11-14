@@ -1357,6 +1357,7 @@ static int __zram_bvec_read(struct zram *zram, struct page *page, u32 index,
 	struct zram_entry *entry;
 	unsigned int size;
 	void *src, *dst;
+	unsigned long handle;
 
 	zram_slot_lock(zram, index);
 	if (zram_test_flag(zram, index, ZRAM_WB)) {
@@ -1387,8 +1388,12 @@ static int __zram_bvec_read(struct zram *zram, struct page *page, u32 index,
 
 	size = zram_get_obj_size(zram, index);
 
-	src = zs_map_object(zram->mem_pool,
-		zram_entry_handle(zram, entry), ZS_MM_RO);
+	handle = zram_entry_handle(zram, entry);
+	if (!handle) {
+		zram_slot_unlock(zram, index);
+		return 0;
+	}
+	src = zs_map_object(zram->mem_pool, handle, ZS_MM_RO);
 	if (size == PAGE_SIZE) {
 		dst = kmap_atomic(page);
 		memcpy(dst, src, PAGE_SIZE);
@@ -1402,7 +1407,7 @@ static int __zram_bvec_read(struct zram *zram, struct page *page, u32 index,
 		kunmap_atomic(dst);
 		zcomp_stream_put(zram->comp);
 	}
-	zs_unmap_object(zram->mem_pool, zram_entry_handle(zram, entry));
+	zs_unmap_object(zram->mem_pool, handle);
 	zram_slot_unlock(zram, index);
 
 	/* Should NEVER happen. Return bio error if it does. */
