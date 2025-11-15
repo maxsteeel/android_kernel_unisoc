@@ -311,7 +311,7 @@ int bus_chn_init(struct mchn_ops_t *ops, int hif_type)
 	int ret = 0;
 	struct chn_info_t *chn_inf = chn_info();
 
-	pr_info("[+]%s(%d, %d)\n", __func__, ops->channel, ops->hif_type);
+	pr_debug("[+]%s(%d, %d)\n", __func__, ops->channel, ops->hif_type);
 	if ((chn_inf + ops->channel)->ops != NULL) {
 		pr_err("%s err, hif_type %d\n", __func__, ops->hif_type);
 		WARN_ON_ONCE(1);
@@ -327,7 +327,7 @@ int bus_chn_init(struct mchn_ops_t *ops, int hif_type)
 				    ops->pool_size, 0);
 	mutex_unlock(&(chn_inf + ops->channel)->callback_lock);
 
-	pr_info("[-]%s(%d)\n", __func__, ops->channel);
+	pr_debug("[-]%s(%d)\n", __func__, ops->channel);
 
 	return ret;
 }
@@ -337,7 +337,7 @@ int bus_chn_deinit(struct mchn_ops_t *ops)
 	int ret = 0;
 	struct chn_info_t *chn_inf = chn_info();
 
-	pr_info("[+]%s(%d, %d)\n", __func__, ops->channel, ops->hif_type);
+	pr_debug("[+]%s(%d, %d)\n", __func__, ops->channel, ops->hif_type);
 	if ((chn_inf + ops->channel)->ops == NULL) {
 		pr_err("%s err\n", __func__);
 		return -1;
@@ -350,7 +350,7 @@ int bus_chn_deinit(struct mchn_ops_t *ops)
 	mutex_unlock(&(chn_inf + ops->channel)->callback_lock);
 	mutex_destroy(&(chn_inf + ops->channel)->callback_lock);
 
-	pr_info("[-]%s(%d)\n", __func__, ops->channel);
+	pr_debug("[-]%s(%d)\n", __func__, ops->channel);
 
 	return ret;
 }

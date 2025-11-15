@@ -158,7 +158,7 @@ static int sprd_wdt_fiq_load_value(struct sprd_wdt_fiq *wdt, u32 timeout,
 	u32 tmr_step = timeout * SPRD_WDT_FIQ_CNT_STEP;
 	u32 prtmr_step = pretimeout * SPRD_WDT_FIQ_CNT_STEP;
 
-	pr_err("sprd_wdt_fiq: sprd wdt load value timeout =%d, pretimeout =%d\n",
+	pr_debug("sprd_wdt_fiq: sprd wdt load value timeout =%d, pretimeout =%d\n",
 	       timeout, pretimeout);
 	wdt->wdt_load = jiffies;
 	sprd_wdt_fiq_unlock(wdt);

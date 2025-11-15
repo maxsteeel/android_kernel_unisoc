@@ -120,7 +120,7 @@ static void sprd_dpu_mode_set_nofb(struct sprd_crtc *crtc)
 	struct sprd_dpu *dpu = crtc->priv;
 	struct drm_display_mode *mode = &crtc->base.state->adjusted_mode;
 
-	DRM_INFO("%s() set mode: %s\n", __func__, dpu->mode->name);
+	DRM_DEBUG("%s() set mode: %s\n", __func__, dpu->mode->name);
 
 	if (dpu->dsi->ctx.work_mode == DSI_MODE_VIDEO)
 		dpu->ctx.if_type = SPRD_DPU_IF_DPI;
@@ -136,7 +136,7 @@ static enum drm_mode_status sprd_dpu_mode_valid(struct sprd_crtc *crtc,
 {
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
+	DRM_DEBUG("%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
 
 	if (mode->type == DRM_MODE_TYPE_DRIVER)
 		dpu->mode = (struct drm_display_mode *)mode;
@@ -157,7 +157,7 @@ static void sprd_dpu_atomic_enable(struct sprd_crtc *crtc)
 	struct sprd_dpu *dpu = crtc->priv;
 	static bool is_enable = true;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 	if (is_enable) {
 		/* workaround:
 		 * dpu r6p0 need resume after dsi resume on div6 scences
@@ -180,7 +180,7 @@ static void sprd_dpu_atomic_disable(struct sprd_crtc *crtc)
 {
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	sprd_crtc_wait_last_commit_complete(&crtc->base);
 
@@ -196,7 +196,7 @@ void sprd_dpu_atomic_disable_force(struct drm_crtc *crtc)
 	struct sprd_crtc *sprd_crtc = container_of(crtc, struct sprd_crtc, base);
 	struct sprd_dpu *dpu = sprd_crtc->priv;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	/* dpu is not initialized,it should enable first! */
 	if (!dpu->ctx.enabled) {
@@ -240,7 +240,7 @@ static int sprd_dpu_enable_vblank(struct sprd_crtc *crtc)
 {
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	if (dpu->core->enable_vsync)
 		dpu->core->enable_vsync(&dpu->ctx);
@@ -252,7 +252,7 @@ static void sprd_dpu_disable_vblank(struct sprd_crtc *crtc)
 {
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	if (dpu->core->disable_vsync)
 		dpu->core->disable_vsync(&dpu->ctx);
@@ -360,7 +360,7 @@ void sprd_dpu_resume(struct sprd_dpu *dpu)
 	sprd_dpu_enable(dpu);
 	enable_irq(dpu->ctx.irq);
 	sprd_iommu_restore(&dpu->dev);
-	DRM_INFO("dpu resume OK\n");
+	DRM_DEBUG("dpu resume OK\n");
 }
 
 void sprd_dpu_disable(struct sprd_dpu *dpu)
@@ -423,7 +423,7 @@ static int sprd_dpu_irq_request(struct sprd_dpu *dpu)
 		DRM_ERROR("error: dpu parse irq num failed\n");
 		return -EINVAL;
 	}
-	DRM_INFO("dpu irq_num = %d\n", irq_num);
+	DRM_DEBUG("dpu irq_num = %d\n", irq_num);
 
 	irq_set_status_flags(irq_num, IRQ_NOAUTOEN);
 	ret = devm_request_irq(&dpu->dev, irq_num, sprd_dpu_isr,
@@ -443,7 +443,7 @@ static struct sprd_dsi *sprd_dpu_dsi_attach(struct sprd_dpu *dpu)
 	struct device *dev;
 	struct sprd_dsi *dsi;
 
-	DRM_INFO("dpu attach dsi\n");
+	DRM_DEBUG("dpu attach dsi\n");
 	dev = sprd_disp_pipe_get_output(&dpu->dev);
 	if (!dev) {
 		DRM_ERROR("dpu pipe get output failed\n");
@@ -466,7 +466,7 @@ static int sprd_dpu_bind(struct device *dev, struct device *master, void *data)
 	struct sprd_crtc_capability cap = {};
 	struct sprd_plane *planes;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	dpu->core->version(&dpu->ctx);
 	dpu->core->capability(&dpu->ctx, &cap);
@@ -492,7 +492,7 @@ static void sprd_dpu_unbind(struct device *dev, struct device *master,
 {
 	struct sprd_dpu *dpu = dev_get_drvdata(dev);
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	drm_crtc_cleanup(&dpu->crtc->base);
 }

@@ -614,7 +614,7 @@ static void wcn_sipc_sblk_push_list_dequeue(struct sipc_chn_info *sipc_chn)
 	/* nothing to do */
 	if (!sipc_chn->push_queue.mbuf_num) {
 		mutex_unlock(&sipc_chn->pushq_lock);
-		WCN_INFO("channel %d-%d(%d), chn_deinit?\n",
+		WCN_DBG("channel %d-%d(%d), chn_deinit?\n",
 			sipc_chn->dst, sipc_chn->chn, sipc_chn->index);
 		WCN_HERE_CHN(sipc_chn->index);
 		return;
@@ -714,7 +714,7 @@ static void wcn_sipc_sblk_recv(struct sipc_chn_info *sipc_chn)
 void wcn_sipc_chn_set_status(void *data, bool flag)
 {
 	struct sipc_chn_info *sipc_chn = (struct sipc_chn_info *)data;
-	WCN_INFO("wcn_sipc_chn_set_status chn: %d ,  flag:%d\n", sipc_chn->chn, flag);
+	WCN_DEBUG("wcn_sipc_chn_set_status chn: %d ,  flag:%d\n", sipc_chn->chn, flag);
 	if (flag)
 		sipc_chn->sipc_chn_status = true;
 	else
@@ -738,7 +738,7 @@ static void wcn_sipc_sblk_notifer(int event, void *data)
 
 	if (unlikely(!sipc_chn))
 		return;
-	WCN_INFO("%s  %d index:%d  event:%x",
+	WCN_DEBUG("%s  %d index:%d  event:%x",
 		  __func__, __LINE__, sipc_chn->index, event);
 	switch (event) {
 	case SBLOCK_NOTIFY_RECV:
@@ -871,7 +871,7 @@ static int wcn_sipc_chn_init(struct mchn_ops_t *ops)
 	if (unlikely(SIPC_INVALID_CHN(idx)))
 		return -E_INVALIDPARA;
 	sipc_chn = SIPC_CHN(idx);
-	WCN_INFO("[%s]:index[%d] chn[%d]\n", __func__, idx, sipc_chn->chn);
+	WCN_DEBUG("[%s]:index[%d] chn[%d]\n", __func__, idx, sipc_chn->chn);
 	ops->inout = sipc_chn->inout;
 	chntype = sipc_chn->chntype;
 	if (SIPC_CHN_TYPE_SBUF(idx)) {
@@ -910,7 +910,7 @@ static int wcn_sipc_chn_init(struct mchn_ops_t *ops)
 				return ret;
 			}
 		}
-		WCN_INFO("sbuf chn[%d] create success!\n", idx);
+		WCN_DEBUG("sbuf chn[%d] create success!\n", idx);
 	} else if (SIPC_CHN_TYPE_SBLK(idx)) {
 		WCN_DEBUG("tbnum[%d] tbsz[%d] rbnum[%d] rbsz[%d]\n",
 			  sipc_chn->sblk.txblocknum,
@@ -953,7 +953,7 @@ static int wcn_sipc_chn_init(struct mchn_ops_t *ops)
 				}
 			}
 		}
-		WCN_INFO("sblock chn[%d] create success!\n", idx);
+		WCN_DEBUG("sblock chn[%d] create success!\n", idx);
 	} else {
 		WCN_ERR("invalid sipc type!");
 		return -E_INVALIDPARA;
@@ -961,7 +961,7 @@ static int wcn_sipc_chn_init(struct mchn_ops_t *ops)
 
 	bus_chn_init(ops, HW_TYPE_SIPC);
 	sipc_chn->ops = ops;
-	WCN_INFO("sipc chn[%d] init success!\n", idx);
+	WCN_DEBUG("sipc chn[%d] init success!\n", idx);
 
 	return 0;
 }
@@ -975,11 +975,11 @@ static int wcn_sipc_chn_deinit(struct mchn_ops_t *ops)
 
 	sipc_chn = SIPC_CHN(idx);
 	sipc_chn->ops = NULL;
-	WCN_INFO("[%s]:index[%d] chn[%d], sipc_chn->ops = null.\n", __func__, idx, sipc_chn->chn);
+	WCN_DEBUG("[%s]:index[%d] chn[%d], sipc_chn->ops = null.\n", __func__, idx, sipc_chn->chn);
 
 	tx_sipc_chn = SIPC_CHN(sipc_chn->relate_index);
 	if (SIPC_CHN_TYPE_SBLK(idx) && SIPC_CHN_DIR_TX(idx)) {
-		WCN_INFO("Wait %d-%d index%d push\n",
+		WCN_DEBUG("Wait %d-%d index%d push\n",
 			tx_sipc_chn->dst, tx_sipc_chn->chn, tx_sipc_chn->index);
 		mutex_lock(&tx_sipc_chn->pushq_lock);
 		/* WARNING: wcn_sipc_sblk_push_list_dequeue done */
@@ -996,12 +996,12 @@ static int wcn_sipc_chn_deinit(struct mchn_ops_t *ops)
 		if (SIPC_CHN_DIR_TX(idx) && wcn_sipc_sblk_chn_rx_status_check(idx) != 0) {
 			sblock_destroy(sipc_chn->dst, sipc_chn->chn);
 			SIPC_CHN_STATUS(sipc_chn->chn) = SIPC_CHANNEL_UNCREATED;
-			WCN_INFO("sipc chn[%d] deinit and destroy!\n", idx);
+			WCN_DEBUG("sipc chn[%d] deinit and destroy!\n", idx);
 		}
 	}
 
 	/* for chn created success,we don't release sipc resource for now */
-	WCN_INFO("sipc chn[%d] deinit success!\n", idx);
+	WCN_DEBUG("sipc chn[%d] deinit success!\n", idx);
 
 	return 0;
 }
@@ -1036,13 +1036,13 @@ static void wcn_sipc_resource_deinit(void)
 static void wcn_sipc_module_init(void)
 {
 	wcn_sipc_resource_init();
-	WCN_INFO("sipc module init success\n");
+	WCN_DBG("sipc module init success\n");
 }
 
 static void wcn_sipc_module_deinit(void)
 {
 	wcn_sipc_resource_deinit();
-	WCN_INFO("sipc module deinit success\n");
+	WCN_DBG("sipc module deinit success\n");
 }
 
 static int wcn_sipc_parse_dt(void)
@@ -1062,7 +1062,7 @@ static int wcn_sipc_parse_dt(void)
 				   &g_sipc_info.sipc_wcn_version);
 	if (ret)
 		WCN_ERR("wcn-sipc-ver parse fail!\n");
-	WCN_INFO("wcn-sipc-ver:%d\n", g_sipc_info.sipc_wcn_version);
+	WCN_DBG("wcn-sipc-ver:%d\n", g_sipc_info.sipc_wcn_version);
 
 	return ret;
 }
@@ -1187,7 +1187,7 @@ int wcn_sipc_init_debugfs(void)
 
 int wcn_sipc_preinit(void)
 {
-	WCN_INFO("sipc module preinit\n");
+	WCN_DBG("sipc module preinit\n");
 
 #if defined(CONFIG_DEBUG_FS)
 	wcn_sipc_init_debugfs();
@@ -1222,7 +1222,7 @@ void module_bus_sipc_init(void)
 {
 	wcn_sipc_module_init();
 	module_ops_register(&sipc_bus_ops);
-	WCN_INFO("sipc bus init success\n");
+	WCN_DBG("sipc bus init success\n");
 }
 EXPORT_SYMBOL(module_bus_sipc_init);
 
@@ -1230,6 +1230,6 @@ void module_bus_sipc_deinit(void)
 {
 	module_ops_unregister();
 	wcn_sipc_module_deinit();
-	WCN_INFO("sipc bus deinit success\n");
+	WCN_DBG("sipc bus deinit success\n");
 }
 EXPORT_SYMBOL(module_bus_sipc_deinit);

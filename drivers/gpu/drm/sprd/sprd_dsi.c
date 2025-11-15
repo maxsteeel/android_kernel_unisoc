@@ -109,7 +109,7 @@ static void sprd_dsi_encoder_enable(struct drm_encoder *encoder)
 	struct sprd_crtc *crtc = to_sprd_crtc(encoder->crtc);
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s(last_dpms=%d, dpms=%d)\n",
+	DRM_DEBUG("%s(last_dpms=%d, dpms=%d)\n",
 			__func__, dsi->ctx.last_dpms, dsi->ctx.dpms);
 
 	mutex_lock(&dsi->lock);
@@ -213,7 +213,7 @@ static void sprd_dsi_encoder_disable(struct drm_encoder *encoder)
 	struct sprd_dpu *dpu = crtc->priv;
 	struct sprd_panel *panel = container_of(dsi->panel, struct sprd_panel, base);
 
-	DRM_INFO("%s(last_dpms=%d, dpms=%d)\n",
+	DRM_DEBUG("%s(last_dpms=%d, dpms=%d)\n",
 			__func__, dsi->ctx.last_dpms, dsi->ctx.dpms);
 
 	mutex_lock(&dsi->lock);
@@ -283,7 +283,7 @@ void sprd_dsi_encoder_disable_force(struct drm_encoder *encoder)
 	struct sprd_crtc *crtc = to_sprd_crtc(encoder->crtc);
 	struct sprd_dpu *dpu = crtc->priv;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	mutex_lock(&dsi->lock);
 
@@ -328,14 +328,14 @@ static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
 {
 	struct sprd_dsi *dsi = encoder_to_dsi(encoder);
 
-	DRM_INFO("%s() set mode: %s\n", __func__, dsi->mode->name);
+	DRM_DEBUG("%s() set mode: %s\n", __func__, dsi->mode->name);
 }
 
 static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encoder,
 				    struct drm_crtc_state *crtc_state,
 				    struct drm_connector_state *conn_state)
 {
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	return 0;
 }
@@ -436,7 +436,7 @@ static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
 	u32 val;
 	int ret;
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	dsi->slave = slave;
 	ctx->lanes = slave->lanes;
@@ -495,7 +495,7 @@ static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
 static int sprd_dsi_host_detach(struct mipi_dsi_host *host,
 			   struct mipi_dsi_device *slave)
 {
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 	/* do nothing */
 	return 0;
 }
@@ -545,7 +545,7 @@ static int sprd_dsi_connector_get_modes(struct drm_connector *connector)
 {
 	struct sprd_dsi *dsi = connector_to_dsi(connector);
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	return drm_panel_get_modes(dsi->panel);
 }
@@ -557,7 +557,7 @@ sprd_dsi_connector_mode_valid(struct drm_connector *connector,
 	struct sprd_dsi *dsi = connector_to_dsi(connector);
 	struct drm_display_mode *pmode;
 
-	DRM_INFO("%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
+	DRM_DEBUG("%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
 
 	if (mode->type & DRM_MODE_TYPE_PREFERRED) {
 		dsi->mode = mode;
@@ -583,7 +583,7 @@ sprd_dsi_connector_best_encoder(struct drm_connector *connector)
 {
 	struct sprd_dsi *dsi = connector_to_dsi(connector);
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 	return &dsi->encoder;
 }
 
@@ -598,7 +598,7 @@ sprd_dsi_connector_detect(struct drm_connector *connector, bool force)
 {
 	struct sprd_dsi *dsi = connector_to_dsi(connector);
 
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	if (dsi->panel) {
 		drm_panel_attach(dsi->panel, connector);
@@ -610,7 +610,7 @@ sprd_dsi_connector_detect(struct drm_connector *connector, bool force)
 
 static void sprd_dsi_connector_destroy(struct drm_connector *connector)
 {
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 	drm_connector_unregister(connector);
 	drm_connector_cleanup(connector);
@@ -711,7 +711,7 @@ static int sprd_dsi_irq_request(struct sprd_dsi *dsi)
 
 	irq0 = irq_of_parse_and_map(dsi->host.dev->of_node, 0);
 	if (irq0) {
-		DRM_INFO("dsi irq0 num = %d\n", irq0);
+		DRM_DEBUG("dsi irq0 num = %d\n", irq0);
 		ret = request_irq(irq0, sprd_dsi_isr, 0, "DSI_INT0", dsi);
 		if (ret) {
 			DRM_ERROR("dsi failed to request irq int0!\n");
@@ -722,7 +722,7 @@ static int sprd_dsi_irq_request(struct sprd_dsi *dsi)
 
 	irq1 = irq_of_parse_and_map(dsi->host.dev->of_node, 1);
 	if (irq1) {
-		DRM_INFO("dsi irq1 num = %d\n", irq1);
+		DRM_DEBUG("dsi irq1 num = %d\n", irq1);
 		ret = request_irq(irq1, sprd_dsi_isr, 0, "DSI_INT1", dsi);
 		if (ret) {
 			DRM_ERROR("dsi failed to request irq int1!\n");
@@ -775,7 +775,7 @@ static void sprd_dsi_unbind(struct device *dev,
 			struct device *master, void *data)
 {
 	/* do nothing */
-	DRM_INFO("%s()\n", __func__);
+	DRM_DEBUG("%s()\n", __func__);
 
 }
 

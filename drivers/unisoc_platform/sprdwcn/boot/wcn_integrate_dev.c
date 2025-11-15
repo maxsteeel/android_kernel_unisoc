@@ -235,7 +235,7 @@ static void wcn_config_ctrlreg(struct wcn_device *wcn_dev, u32 start, u32 end)
 			(type == REGMAP_WCN_BTWF_AHB ||
 			type == REGMAP_WCN_GNSS_SYS_AHB)) {
 			timeout = 0;
-			WCN_INFO("wcn power btwf check!\n");
+			WCN_DBG("wcn power btwf check!\n");
 			do {
 				if (wcn_power_status_check(wcn_dev)) {
 					wcn_power_status = 1;
@@ -249,13 +249,13 @@ static void wcn_config_ctrlreg(struct wcn_device *wcn_dev, u32 start, u32 end)
 				WCN_ERR("wcn power on fail!\n");
 				return;
 			}
-			WCN_INFO("wcn poweron finish\n");
+			WCN_DBG("wcn poweron finish\n");
 		}
 
 		reg_read = wcn_dev->ctrl_reg[i] -
 			   wcn_dev->ctrl_rw_offset[i];
 		wcn_regmap_read(wcn_dev->rmap[type], reg_read, &val);
-		WCN_INFO("rmap[%d]:ctrl_reg[%d]=0x%x,read=0x%x, set=0x%x\n",
+		WCN_DBG("rmap[%d]:ctrl_reg[%d]=0x%x,read=0x%x, set=0x%x\n",
 			 type, i, reg_read, val,
 			 wcn_dev->ctrl_value[i]);
 		utemp_val = wcn_dev->ctrl_value[i];
@@ -269,7 +269,7 @@ static void wcn_config_ctrlreg(struct wcn_device *wcn_dev, u32 start, u32 end)
 			/* release cpu reset  manually */
 			if (s_wcn_device.boot_manually == true &&
 					wcn_dev->ctrl_reg[i] == 0x0c) {
-				WCN_INFO("manual boot!\n");
+				WCN_DBG("manual boot!\n");
 				/* set cp run to while(1) */
 				/* 0x0 */
 				debug_value = 0xE7FE;
@@ -290,7 +290,7 @@ static void wcn_config_ctrlreg(struct wcn_device *wcn_dev, u32 start, u32 end)
 			}
 		}
 		/* raw: write bits */
-		WCN_INFO("utemp_val 0x%x  val 0x%x\n", utemp_val, val);
+		WCN_DBG("utemp_val 0x%x  val 0x%x\n", utemp_val, val);
 		wcn_regmap_raw_write_bit(wcn_dev->rmap[type],
 					wcn_dev->ctrl_reg[i], utemp_val);
 
@@ -300,7 +300,7 @@ static void wcn_config_ctrlreg(struct wcn_device *wcn_dev, u32 start, u32 end)
 		else
 			udelay(wcn_dev->ctrl_us_delay[i]);
 		wcn_regmap_read(wcn_dev->rmap[type], reg_read, &val);
-		WCN_INFO("rmap[%d]:ctrl_reg[%d] = 0x%x, val=0x%x\n",
+		WCN_DBG("rmap[%d]:ctrl_reg[%d] = 0x%x, val=0x%x\n",
 			 type, i, reg_read, val);
 	}
 }
@@ -360,7 +360,7 @@ static void marlin_write_efuse_data(void)
 	       WIFI_EFUSE_BLOCK_COUNT);
 	for (iloop = 0; iloop < WIFI_EFUSE_BLOCK_COUNT; iloop++) {
 		tmp_value[iloop] = wcn_efuse_val[iloop];
-		WCN_INFO("s_wifi_efuse_id[%d][%d]=%d, value=0x%x\n",
+		WCN_DBG("s_wifi_efuse_id[%d][%d]=%d, value=0x%x\n",
 			 chip_type, iloop,
 			 s_wifi_efuse_id[chip_type][iloop],
 			 tmp_value[iloop]);
@@ -377,7 +377,7 @@ static void marlin_write_efuse_data(void)
 				   sizeof(tmp_value[0]) *
 				   WIFI_EFUSE_BLOCK_COUNT);
 
-	WCN_INFO("%s finish.\n", __func__);
+	WCN_DBG("%s finish.\n", __func__);
 }
 
 #define WCN_EFUSE_TEMPERATURE_MAGIC 0x432ff678
@@ -393,7 +393,7 @@ static void marlin_write_efuse_temperature(void)
 		magic += 1;
 		goto out;
 	}
-	WCN_INFO("temperature efuse read 0x%x\n", wcn_efuse_val[3]);
+	WCN_DBG("temperature efuse read 0x%x\n", wcn_efuse_val[3]);
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
 		phy_addr = s_wcn_device.btwf_device->base_addr +
 		  (phys_addr_t)&qogirl6_s_wssm_phy_offset_p->efuse_temper_val;
@@ -434,7 +434,7 @@ void gnss_write_efuse_data(void)
 	memset(&tmp_value, 0, sizeof(tmp_value[0]) * GNSS_EFUSE_BLOCK_COUNT);
 	for (iloop = 0; iloop < GNSS_EFUSE_BLOCK_COUNT; iloop++) {
 		tmp_value[iloop] = gnss_efuse_val[iloop];
-		WCN_INFO("s_gnss_efuse_id[%d][%d]=%d, value=0x%x\n",
+		WCN_DBG("s_gnss_efuse_id[%d][%d]=%d, value=0x%x\n",
 			 chip_type, iloop,
 			 s_gnss_efuse_id[chip_type][iloop],
 			 tmp_value[iloop]);
@@ -455,7 +455,7 @@ void gnss_write_efuse_data(void)
 		    GNSS_EFUSE_ENABLE_ADDR;
 	wcn_write_data_to_phy_addr(phy_addr1, &efuse_enable_value, 4);
 
-	WCN_INFO("%s finish.\n", __func__);
+	WCN_DBG("%s finish.\n", __func__);
 }
 
 static void wcn_parse_dt_regmap_judge(struct wcn_device *wcn_dev)
@@ -490,7 +490,7 @@ static void wcn_parse_dt_regmap_judge(struct wcn_device *wcn_dev)
 		wcn_dev->need_dcxo1v8 = TRUE;
 	}
 	for (i = 0; i < REGMAP_TYPE_NR; i++)
-		WCN_INFO("need_regmap[%d] : %d\n", i, wcn_dev->need_regmap[i]);
+		WCN_DBG("need_regmap[%d] : %d\n", i, wcn_dev->need_regmap[i]);
 }
 
 static int wcn_parse_dt(struct platform_device *pdev,
@@ -506,7 +506,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 	u32 rc = 0;
 	const char *cmd_line;
 
-	WCN_INFO("%s start!\n", __func__);
+	WCN_DBG("%s start!\n", __func__);
 
 	if (!wcn_dev) {
 		WCN_ERR("wcn_dev NULL\n");
@@ -553,7 +553,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			WCN_ERR("failed to find sprd,syscon-ap-pub-apb\n");
 			return -EINVAL;
 		}
-		WCN_INFO("PUB APB REG MAP!\n");
+		WCN_DBG("PUB APB REG MAP!\n");
 	}
 
 	/* get  anlg wrap wcn reg handle */
@@ -588,7 +588,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			return -EINVAL;
 		}
 
-		WCN_INFO("success to find sprd,wcn-reg for SharkL3 %p\n",
+		WCN_DBG("success to find sprd,wcn-reg for SharkL3 %p\n",
 			 wcn_dev->rmap[REGMAP_WCN_REG]);
 	}
 
@@ -681,7 +681,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 	if (ret)
 		return -EINVAL;
 	for (i = 0; i < cr_num; i++)
-		WCN_INFO("ctrl_value[%d] = 0x%08x\n",
+		WCN_DBG("ctrl_value[%d] = 0x%08x\n",
 			 i, wcn_dev->ctrl_value[i]);
 
 	/* get ctrl_rw_offset */
@@ -817,7 +817,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			WCN_ERR("Get regulator of vddwcn error!\n");
 			return -EINVAL;
 		}
-		WCN_INFO("Get regulator of vddwcn\n");
+		WCN_DBG("Get regulator of vddwcn\n");
 	}
 
 	/* get dcxo1v8 */
@@ -828,7 +828,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			WCN_ERR("Get regulator of dcxo1v8 error!\n");
 			return -EINVAL;
 		}
-		WCN_INFO("Get regulator of dcxo1v8\n");
+		WCN_DBG("Get regulator of dcxo1v8\n");
 	}
 
 	/* get vddwifipa: only MARLIN has it */
@@ -839,7 +839,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			WCN_ERR("Get regulator of vddwifipa error!\n");
 			return -EINVAL;
 		}
-		WCN_INFO("Get regulator of vddwifipa\n");
+		WCN_DBG("Get regulator of vddwifipa\n");
 	}
 	if (wcn_dev->need_gpio) {
 		if (!wcn_devm->merlion_chip_en) {
@@ -850,7 +850,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 				WCN_ERR("get gpio merlion chip en error!\n");
 				return -EINVAL;
 			}
-			WCN_INFO("get merlion chip gpio\n");
+			WCN_DBG("get merlion chip gpio\n");
 		}
 		if (!wcn_devm->merlion_reset) {
 			wcn_devm->merlion_reset =
@@ -860,7 +860,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 				WCN_ERR("get gpio merlion rst error!\n");
 				return -EINVAL;
 			}
-			WCN_INFO("get merlion rst gpio\n");
+			WCN_DBG("get merlion rst gpio\n");
 		}
 		if (!wcn_devm->clk_26m_type_sel) {
 			wcn_devm->clk_26m_type_sel =
@@ -878,7 +878,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 					wcn_devm->clk_xtal_26m.type =
 						WCN_CLOCK_TYPE_TCXO;
 			}
-			WCN_INFO("get xtal-26m-type-sel gpio\n");
+			WCN_DBG("get xtal-26m-type-sel gpio\n");
 		}
 	}
 
@@ -889,13 +889,13 @@ static int wcn_parse_dt(struct platform_device *pdev,
 		return -EINVAL;
 	wcn_dev->base_addr = res.start;
 	wcn_dev->maxsz = res.end - res.start + 1;
-	WCN_INFO("cp base = %llu, size = 0x%x\n",
+	WCN_DBG("cp base = %llu, size = 0x%x\n",
 		 (u64)wcn_dev->base_addr, wcn_dev->maxsz);
 	if (strcmp(wcn_dev->name, WCN_MARLIN_DEV_NAME) == 0) {
 		wcn_dev->db_to_ddr_disable = of_property_read_bool(np,
 				"sprd,debugbus-to-ddr-disable");
 		if (wcn_dev->db_to_ddr_disable == true) {
-			WCN_INFO("Debugbus data does not need to be saved to DDR\n");
+			WCN_DBG("Debugbus data does not need to be saved to DDR\n");
 			wcn_dev->dbus.base_addr = 0xffffffff; /* invalid addr */
 			wcn_dev->dbus.maxsz = DEBUGBUS_TO_DDR_LEN;
 		} else {
@@ -910,7 +910,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 				wcn_dev->dbus.maxsz = res.end - res.start + 1;
 			}
 		}
-		WCN_INFO("index = %d, dbus base = 0x%llx, size = 0x%x\n", index,
+		WCN_DBG("index = %d, dbus base = 0x%llx, size = 0x%x\n", index,
 				(u64)wcn_dev->dbus.base_addr, wcn_dev->dbus.maxsz);
 
 		index++;
@@ -927,12 +927,12 @@ static int wcn_parse_dt(struct platform_device *pdev,
 			wcn_dev->dbus.dbus_reg_base = of_iomap(np, index);
 		}
 
-		WCN_INFO("index = %d, phy_reg=0x%llx,size=0x%x,map to dbus_reg_base=0x%p\n", index,
+		WCN_DBG("index = %d, phy_reg=0x%llx,size=0x%x,map to dbus_reg_base=0x%p\n", index,
 			(u64)wcn_dev->dbus.phy_reg, wcn_dev->dbus.dbus_max_offset,
 			wcn_dev->dbus.dbus_reg_base);
 	}
 	wcn_dev->pm_qos_enable = of_property_read_bool(np, "sprd,wcn-pm-qos-enable");
-	WCN_INFO("%s pm_qos_enable=%d\n", wcn_dev->name, wcn_dev->pm_qos_enable);
+	WCN_DBG("%s pm_qos_enable=%d\n", wcn_dev->name, wcn_dev->pm_qos_enable);
 
 	ret = of_property_read_string(np, "sprd,file-name",
 				      (const char **)&wcn_dev->file_path);
@@ -971,7 +971,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 		if (!rc) {
 			fstab_ab = strstr(cmd_line, SUFFIX);
 			if (fstab_ab) {
-				WCN_INFO("fstab: %s.\n", fstab_ab);
+				WCN_DBG("fstab: %s.\n", fstab_ab);
 				if (strncmp(fstab_ab + strlen(SUFFIX), "_a", 2) == 0)
 					wcn_dev->fstab = 'a';
 				else if (strncmp(fstab_ab + strlen(SUFFIX), "_b", 2) == 0)
@@ -984,7 +984,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 	ret = of_property_read_u32_index(np,
 					 "sprd,file-length",
 					 0, &wcn_dev->file_length);
-	WCN_INFO("wcn_dev->file_length:%d\n", wcn_dev->file_length);
+	WCN_DBG("wcn_dev->file_length:%d\n", wcn_dev->file_length);
 	if (ret)
 		return -EINVAL;
 
@@ -1047,7 +1047,7 @@ static int wcn_parse_dt(struct platform_device *pdev,
 					 0, (u32 *)&wcn_dev->apcp_sync_addr);
 		if (ret)
 			WCN_ERR("sprd,apcp-sync-addr, ret %d\n", ret);
-		WCN_INFO("wcn_dev->apcp-sync-addr:0x%08llx\n",
+		WCN_DBG("wcn_dev->apcp-sync-addr:0x%08llx\n",
 				    wcn_dev->apcp_sync_addr);
 		/* qogirl6 get apcp sync addr from  */
 		wcn_set_apcp_sync_addr(wcn_dev);
@@ -1063,7 +1063,7 @@ static int wcn_platform_open(struct inode *inode, struct file *filp)
 	struct platform_proc_file_entry
 	*entry = (struct platform_proc_file_entry *)PDE_DATA(inode);
 
-	WCN_INFO("entry name:%s\n!", entry->name);
+	WCN_DBG("entry name:%s\n!", entry->name);
 
 	filp->private_data = entry;
 
@@ -1091,7 +1091,7 @@ static ssize_t wcn_platform_write(struct file *filp,
 	u32 sub_sys = 0;
 
 	flag = entry->flag;
-	WCN_INFO("type = %s flag = 0x%x\n", type, flag);
+	WCN_DBG("type = %s flag = 0x%x\n", type, flag);
 
 	if ((flag & BE_WRONLY) == 0)
 		return -EPERM;
@@ -1120,13 +1120,13 @@ static ssize_t wcn_platform_write(struct file *filp,
 	if ((flag & BE_CTRL_ON) != 0) {
 		start_integrate_wcn(sub_sys);
 		wcn_dev->status = CP_NORMAL_STATUS;
-		WCN_INFO("start, str=%s!\n", str);
+		WCN_DBG("start, str=%s!\n", str);
 
 		return count;
 	} else if ((flag & BE_CTRL_OFF) != 0) {
 		stop_integrate_wcn(sub_sys);
 		wcn_dev->status = CP_STOP_STATUS;
-		WCN_INFO("stop, str=%s!\n", str);
+		WCN_DBG("stop, str=%s!\n", str);
 
 		return count;
 	}
@@ -1182,7 +1182,7 @@ static inline void wcn_platform_fs_init(struct wcn_device *wcn_dev)
 
 		mode |= (0x0600);
 
-		WCN_INFO("entry name is %s type 0x%x addr: 0x%p\n",
+		WCN_DBG("entry name is %s type 0x%x addr: 0x%p\n",
 			 wcn_dev->platform_fs.entrys[i].name,
 			 wcn_dev->platform_fs.entrys[i].flag,
 			 &wcn_dev->platform_fs.entrys[i]);
@@ -1231,7 +1231,7 @@ static void wcn_subdts_init(void)
 		return;
 	}
 
-	WCN_INFO("%s start, s_wcn_device.btwf_device->name = %s\n", __func__, s_wcn_device.btwf_device->name);
+	WCN_DBG("%s start, s_wcn_device.btwf_device->name = %s\n", __func__, s_wcn_device.btwf_device->name);
 	ret = devm_of_platform_populate(s_wcn_device.btwf_device->dev);
 	if (ret)
 		WCN_ERR("init BTWF subdts error\n");
@@ -1240,7 +1240,7 @@ static void wcn_subdts_init(void)
 /* wcn triggers power on and off by itself in probe */
 static void wcn_probe_power_wq(struct work_struct *work)
 {
-	WCN_INFO("%s start itself\n", __func__);
+	WCN_DBG("%s start itself\n", __func__);
 	if (start_marlin(MARLIN_MDBG)) {
 		WCN_ERR("%s power on failed\n", __func__);
 		return;
@@ -1263,7 +1263,7 @@ int wcn_probe(struct platform_device *pdev)
 	struct wcn_device *wcn_dev;
 	static int first = 1;
 
-	WCN_INFO("%s start!\n", __func__);
+	WCN_DBG("%s start!\n", __func__);
 
 	wcn_dev = kzalloc(sizeof(*wcn_dev), GFP_KERNEL);
 	if (!wcn_dev)
@@ -1359,7 +1359,7 @@ int wcn_probe(struct platform_device *pdev)
 	wcn_codes_debug();
 #endif
 
-	WCN_INFO("%s finish!\n", __func__);
+	WCN_DBG("%s finish!\n", __func__);
 
 	return 0;
 }
@@ -1373,7 +1373,7 @@ int wcn_remove(struct platform_device *pdev)
 		return -ENODEV;
 	}
 
-	WCN_INFO("%s dev name %s\n", __func__, wcn_dev->name);
+	WCN_DBG("%s dev name %s\n", __func__, wcn_dev->name);
 
 	cancel_delayed_work_sync(&wcn_dev->power_wq);
 	cancel_delayed_work_sync(&wcn_dev->probe_power_wq);
@@ -1401,7 +1401,7 @@ void wcn_shutdown(struct platform_device *pdev)
 	struct wcn_device *wcn_dev = platform_get_drvdata(pdev);
 
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
-		WCN_INFO("%s WCN A-DIE powerdown\n", __func__);
+		WCN_DBG("%s WCN A-DIE powerdown\n", __func__);
 		wcn_sys_power_clock_unsupport(true);
 		return;
 	}
@@ -1424,7 +1424,7 @@ void wcn_shutdown(struct platform_device *pdev)
 		wcn_sys_soft_reset();
 		wcn_sys_soft_release();
 		wcn_sys_deep_sleep_en();
-		WCN_INFO("dev name %s\n", wcn_dev->name);
+		WCN_DBG("dev name %s\n", wcn_dev->name);
 	}
 }
 
@@ -1443,7 +1443,7 @@ static struct platform_driver wcn_driver = {
 
 static int __init wcn_init(void)
 {
-	WCN_INFO("entry!\n");
+	WCN_DBG("entry!\n");
 	return platform_driver_register(&wcn_driver);
 }
 late_initcall(wcn_init);

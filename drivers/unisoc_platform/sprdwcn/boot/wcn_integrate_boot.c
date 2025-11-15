@@ -45,46 +45,46 @@ static int wcn_sys_merlion_soft_reset(struct wcn_device *wcn_dev)
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					0x0ba8, &reg_val);
-	WCN_INFO("REG 0x64020ba8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020ba8:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x2ba8, (1 << 20)); /* bit20 clear to 0 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x0ba8, &reg_val);
-	WCN_INFO("REG 0x64020ba8:val=0x%x(soft reset sel 1 clear)!\n", reg_val);
+	WCN_DBG("REG 0x64020ba8:val=0x%x(soft reset sel 1 clear)!\n", reg_val);
 
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					0x0b98, &reg_val);
-	WCN_INFO("REG 0x64020b98:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020b98:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x1b98, (1 << 20)); /* bit20 set to 1 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x0b98, &reg_val);
-	WCN_INFO("REG 0x64020b98:val=0x%x(soft reset sel 0: WCN soft reset)!\n", reg_val);
+	WCN_DBG("REG 0x64020b98:val=0x%x(soft reset sel 0: WCN soft reset)!\n", reg_val);
 
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x640203a8:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x13a8, (1 << 24)); /* bit24 set to 1 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(PD wcn cfg: WCN auto shutdown en)!\n", reg_val);
+	WCN_DBG("REG 0x640203a8:val=0x%x(PD wcn cfg: WCN auto shutdown en)!\n", reg_val);
 
 	if (wcn_sys_polling_powerdown(wcn_dev) == false) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 						0x0818, &reg_val);
-		WCN_INFO("REG 0x64020818:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64020818:val=0x%x!\n", reg_val);
 		wcn_regmap_raw_write_bit(
 				wcn_dev->rmap[REGMAP_PMU_APB],
 				0x1818, (1 << 7)); /* bit7 set to 1 */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				0x0818, &reg_val);
-		WCN_INFO("REG 0x64020818:val=0x%x(WCN force deepsleep en)!\n", reg_val);
+		WCN_DBG("REG 0x64020818:val=0x%x(WCN force deepsleep en)!\n", reg_val);
 		force = true;
 		if (wcn_sys_polling_powerdown(wcn_dev) == false) {
 			WCN_ERR("WCN is not powerdown(soft reset)\n");
@@ -97,35 +97,35 @@ static int wcn_sys_merlion_soft_reset(struct wcn_device *wcn_dev)
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					0x0b98, &reg_val);
-	WCN_INFO("REG 0x64020b98:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020b98:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x2b98, (1 << 20)); /* 20 clear to 0 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x0b98, &reg_val);
-	WCN_INFO("REG 0x64020b98:val=0x%x(soft reset sel 0: WCN soft reset clear)!\n", reg_val);
+	WCN_DBG("REG 0x64020b98:val=0x%x(soft reset sel 0: WCN soft reset clear)!\n", reg_val);
 
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					0x0ba8, &reg_val);
-	WCN_INFO("REG 0x64020ba8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020ba8:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x1ba8, (1 << 20)); /* bit20 set to 1 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x0ba8, &reg_val);
-	WCN_INFO("REG 0x64020ba8:val=0x%x(soft reset sel 1 set)!\n", reg_val);
+	WCN_DBG("REG 0x64020ba8:val=0x%x(soft reset sel 1 set)!\n", reg_val);
 
 	if (force) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				0x0818, &reg_val);
-		WCN_INFO("REG 0x64020818:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64020818:val=0x%x!\n", reg_val);
 		wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x2818, (1 << 7)); /* bit7 clear to 0 */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 			0x0818, &reg_val);
-		WCN_INFO("REG 0x64020818:val=0x%x(WCN force deepsleep clear)!\n", reg_val);
+		WCN_DBG("REG 0x64020818:val=0x%x(WCN force deepsleep clear)!\n", reg_val);
 	}
 
 	return 0;
@@ -149,7 +149,7 @@ void wcn_device_poweroff(void)
 		marlin_reset_func(marlin_callback_para);
 
 	mutex_unlock(&marlin_lock);
-	WCN_INFO("all subsys power off finish!\n");
+	WCN_DBG("all subsys power off finish!\n");
 }
 
 static void wcn_assert_to_reset_mdbg(void)
@@ -159,7 +159,7 @@ static void wcn_assert_to_reset_mdbg(void)
 
 static int wcn_sys_chip_reset(struct notifier_block *this, unsigned long ev, void *ptr)
 {
-	WCN_INFO("%s: reset callback coming\n", __func__);
+	WCN_DBG("%s: reset callback coming\n", __func__);
 	wcn_assert_to_reset_mdbg();
 
 	return NOTIFY_DONE;
@@ -191,11 +191,11 @@ void integ_wcn_chip_power_off(void)
 
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
 		if (wcn_subsys_active_num() == 0) {
-			WCN_INFO("%s not module open! test!!! Ignore\n", __func__);
+			WCN_DBG("%s not module open! test!!! Ignore\n", __func__);
 			return;
 		}
 		lock = mutex_trylock(&marlin_lock);
-		WCN_INFO("Poweron/off trylock:%d\n", lock);
+		WCN_DBG("Poweron/off trylock:%d\n", lock);
 		sprdwcn_bus_set_carddump_status(true);
 		wcn_show_dev_status("Assert reset before:");
 		wcn_sys_merlion_soft_reset(s_wcn_device.btwf_device);
@@ -277,7 +277,7 @@ static void marlin_write_cali_data(void)
 		wcn_write_data_to_phy_addr(phy_addr, &cali_flag, sizeof(cali_flag));
 	}
 
-	WCN_INFO("finish\n");
+	WCN_DBG("finish\n");
 }
 
 /* only wifi need it: AP save the cali data to ini file */
@@ -303,7 +303,7 @@ static void marlin_save_cali_data(void)
 		wcn_read_data_from_phy_addr(phy_addr, &wifi_data.cali_data,
 					    sizeof(struct wifi_cali_t));
 		dump_cali_file(&wifi_data.cali_data);
-		WCN_INFO("finish\n");
+		WCN_DBG("finish\n");
 	}
 }
 
@@ -350,7 +350,7 @@ static int wcn_get_firmware_path(char *firmwarename, char *firmware_path)
 		return -EINVAL;
 	}
 
-	WCN_INFO("wcn_dev->firmware_path:%s\n",
+	WCN_DBG("wcn_dev->firmware_path:%s\n",
 		 firmware_path);
 
 	return 0;
@@ -384,7 +384,7 @@ static int wcn_load_firmware_img(struct wcn_device *wcn_dev,
 		}
 	}
 
-	WCN_INFO("open image file successfully\n");
+	WCN_DBG("open image file successfully\n");
 	/* read file to buffer */
 	size = len;
 	wcn_image_buffer = vmalloc(size);
@@ -393,7 +393,7 @@ static int wcn_load_firmware_img(struct wcn_device *wcn_dev,
 		WCN_ERR("no memory\n");
 		return -ENOMEM;
 	}
-	WCN_INFO("wcn_image_buffer=%p will read len:%u\n",
+	WCN_DBG("wcn_image_buffer=%p will read len:%u\n",
 		 wcn_image_buffer, len);
 
 	data = wcn_image_buffer;
@@ -421,7 +421,7 @@ read_retry:
 	} while ((read_len > 0) && (size > 0));
 
 	fput(file);
-	WCN_INFO("After read, wcn_image_buffer=%p size:%d read:%lld\n",
+	WCN_DBG("After read, wcn_image_buffer=%p size:%d read:%lld\n",
 		 wcn_image_buffer, size, off);
 	if (size + off != len)
 		WCN_INFO("download image may erro!!\n");
@@ -488,7 +488,7 @@ read_retry:
 
 	vfree(wcn_image_buffer);
 
-	WCN_INFO("%s finish\n", __func__);
+	WCN_DBG("%s finish\n", __func__);
 
 	return 0;
 }
@@ -497,7 +497,7 @@ static int wcn_load_firmware_data(struct wcn_device *wcn_dev)
 {
 	bool is_gnss;
 
-	WCN_INFO("entry\n");
+	WCN_DBG("entry\n");
 
 	if (!wcn_dev)
 		return -EINVAL;
@@ -508,7 +508,7 @@ static int wcn_load_firmware_data(struct wcn_device *wcn_dev)
 			WCN_ERR("wcn_get_firmware path Failed!\n");
 			return -EINVAL;
 		}
-		WCN_INFO("firmware path=%s\n", wcn_dev->firmware_path);
+		WCN_DBG("firmware path=%s\n", wcn_dev->firmware_path);
 	}
 	is_gnss = wcn_dev_is_gnss(wcn_dev);
 	if (is_gnss) {
@@ -518,7 +518,7 @@ static int wcn_load_firmware_data(struct wcn_device *wcn_dev)
 			sizeof(wcn_dev->firmware_path));
 		strncat(wcn_dev->firmware_path, wcn_dev->firmware_path_ext,
 			FIRMWARE_FILEPATHNAME_LENGTH_MAX - 1);
-		WCN_INFO("gnss path=%s\n", wcn_dev->firmware_path);
+		WCN_DBG("gnss path=%s\n", wcn_dev->firmware_path);
 	}
 
 	return wcn_load_firmware_img(wcn_dev, wcn_dev->firmware_path,
@@ -572,10 +572,10 @@ static int wcn_download_image(struct wcn_device *wcn_dev)
 	if (!is_marlin) {
 		strcpy(firmware_file_path, gnss_firmware_path);
 		strcat(firmware_file_path, firmware_file_name);
-		WCN_INFO("gnss firmware path:%s\n", firmware_file_path);
+		WCN_DBG("gnss firmware path:%s\n", firmware_file_path);
 	}
 
-	WCN_INFO("loading image [%s] from firmware subsystem ...\n",
+	WCN_DBG("loading image [%s] from firmware subsystem ...\n",
 		 firmware_file_name);
 	err = request_firmware(&firmware, firmware_file_name, NULL);
 	if (err < 0) {
@@ -589,7 +589,7 @@ static int wcn_download_image(struct wcn_device *wcn_dev)
 		}
 #endif
 	} else {
-		WCN_INFO("image size = %d\n", (int)firmware->size);
+		WCN_DBG("image size = %d\n", (int)firmware->size);
 				/*check is 2to1 bin*/
 		if (wcn_check_2to1_bin(wcn_dev, firmware, &off) == 2) {
 			if (wcn_write_data_to_phy_addr(wcn_dev->base_addr,
@@ -670,7 +670,7 @@ static int wcn_download_image(struct wcn_device *wcn_dev)
 		}
 
 		release_firmware(firmware);
-		WCN_INFO("loading image [%s] successfully!\n",
+		WCN_DBG("loading image [%s] successfully!\n",
 			 firmware_file_name);
 	}
 
@@ -696,7 +696,7 @@ int wcn_download_image_ufs(struct wcn_device *wcn_dev)
 	memset(firmware_file_path, 0, FIRMWARE_FILEPATHNAME_LENGTH_MAX);
 
 	if (wcn_dev->file_path_ufs || wcn_dev->file_path_ext_ufs)
-		WCN_INFO("%s load ufs\n", __func__);
+		WCN_DBG("%s load ufs\n", __func__);
 	else {
 		s_wcn_device.wcn_mm_flag = emmc;
 		return 1;
@@ -718,7 +718,7 @@ int wcn_download_image_ufs(struct wcn_device *wcn_dev)
 		fstab_ab(wcn_dev);
 	}
 
-	WCN_INFO("load config ufs file:%s\n", firmware_file_path);
+	WCN_DBG("load config ufs file:%s\n", firmware_file_path);
 	file = filp_open(firmware_file_path, O_RDONLY, 0);
 	if (IS_ERR(file)) {
 		WCN_INFO("%s:open UFS failed check emmc, file=%d\n",
@@ -726,7 +726,7 @@ int wcn_download_image_ufs(struct wcn_device *wcn_dev)
 		s_wcn_device.wcn_mm_flag = emmc;
 		return 1;
 	} else {
-		WCN_INFO("%s:open UFS file succ", __func__);
+		WCN_DBG("%s:open UFS file succ", __func__);
 		s_wcn_device.wcn_mm_flag = ufs;
 	}
 	ret = wcn_load_firmware_img(wcn_dev, firmware_file_path,
@@ -766,7 +766,7 @@ int wcn_download_image_emmc(struct wcn_device *wcn_dev)
 		fstab_ab(wcn_dev);
 	}
 
-	WCN_INFO("load config emmc file:%s\n", firmware_file_path);
+	WCN_DBG("load config emmc file:%s\n", firmware_file_path);
 	file = filp_open(firmware_file_path, O_RDONLY, 0);
 	if (IS_ERR(file)) {
 		WCN_INFO("%s:open EMMC failed check ufs, file=%d\n",
@@ -774,7 +774,7 @@ int wcn_download_image_emmc(struct wcn_device *wcn_dev)
 		s_wcn_device.wcn_mm_flag = ufs;
 		return 1;
 	} else {
-		WCN_INFO("%s:open EMMC file succ", __func__);
+		WCN_DBG("%s:open EMMC file succ", __func__);
 		s_wcn_device.wcn_mm_flag = emmc;
 	}
 	ret = wcn_load_firmware_img(wcn_dev, firmware_file_path,
@@ -807,7 +807,7 @@ static int wcn_download_image_new(struct wcn_device *wcn_dev)
 		count++;
 		if (count > 32)
 			return -EINVAL;
-		WCN_INFO("%s: ret=%d", __func__, ret);
+		WCN_DBG("%s: ret=%d", __func__, ret);
 		if (ret == 0)
 			return ret;
 	}
@@ -906,13 +906,13 @@ static int wcn_wait_marlin_boot(struct wcn_device *wcn_dev)
 		wcn_read_data_from_phy_addr(phy_addr,
 					    &magic_value, sizeof(u32));
 		if (magic_value == marlin_cp_init_ready_magic) {
-			WCN_INFO("BTWF: marlin cp init ready!!!\n");
+			WCN_DBG("BTWF: marlin cp init ready!!!\n");
 			msleep(MARLIN_WAIT_CP_INIT_POLL_TIME_MS);
 			break;
 		}
 
 		msleep(MARLIN_WAIT_CP_INIT_POLL_TIME_MS);
-		WCN_INFO("BTWF: magic_value=0x%x, wait_count=%d\n",
+		WCN_DBG("BTWF: magic_value=0x%x, wait_count=%d\n",
 			 magic_value, wait_count);
 	}
 
@@ -977,7 +977,7 @@ static void gnss_clear_boot_flag(void)
 		return;
 	phy_addr = wcn_get_gnss_base_addr() + GNSS_TEST_OFFSET;
 	wcn_read_data_from_phy_addr(phy_addr, &magic_value, sizeof(u32));
-	WCN_INFO("magic value is 0x%x\n", magic_value);
+	WCN_DBG("magic value is 0x%x\n", magic_value);
 	magic_value = 0;
 	wcn_write_data_to_phy_addr(phy_addr, &magic_value, sizeof(u32));
 }
@@ -1004,7 +1004,7 @@ static void gnss_read_boot_flag(struct wcn_device *wcn_dev)
 			break;
 
 		msleep(MARLIN_WAIT_CP_INIT_POLL_TIME_MS);
-		WCN_INFO("gnss boot: magic_value=%d, wait_count=%d\n",
+		WCN_DBG("gnss boot: magic_value=%d, wait_count=%d\n",
 			 magic_value, wait_count);
 	}
 
@@ -1012,7 +1012,7 @@ static void gnss_read_boot_flag(struct wcn_device *wcn_dev)
 		gnss_set_boot_status(WCN_BOOT_CP2_ERR_BOOT);
 	}
 
-	WCN_INFO("gnss finish!\n");
+	WCN_DBG("gnss finish!\n");
 }
 
 static int wcn_wait_gnss_boot(struct wcn_device *wcn_dev)
@@ -1044,12 +1044,12 @@ static int wcn_wait_gnss_boot(struct wcn_device *wcn_dev)
 		 wait_count++) {
 		wcn_read_data_from_phy_addr(phy_addr,
 					    &magic_value, sizeof(u32));
-		WCN_INFO("gnss cali: magic_value=0x%x, wait_count=%d\n",
+		WCN_DBG("gnss cali: magic_value=0x%x, wait_count=%d\n",
 			magic_value, wait_count);
 		if (magic_value == boot_flag) {
 			WCN_DBG("gnss cali: magic_value=0x%x, wait_count=%d\n",
 				 magic_value, wait_count);
-			WCN_INFO("gnss finish\n");
+			WCN_DBG("gnss finish\n");
 			break;
 		}
 		msleep(GNSS_WAIT_CP_INIT_POLL_TIME_MS);
@@ -1083,7 +1083,7 @@ int wcn_power_clock_support(bool is_btwf_sys)
 {
 	int ret;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 
 	ret = wcn_power_enable_dcxo1v8(true);
 	if (ret) {
@@ -1117,7 +1117,7 @@ int wcn_power_clock_support(bool is_btwf_sys)
 		}
 	}
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -1129,7 +1129,7 @@ int wcn_sys_power_clock_unsupport(bool is_btwf_sys)
 {
 	int ret;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 
 	if (is_btwf_sys) {
 		ret = wcn_marlin_power_enable_vddwifipa(false);
@@ -1163,7 +1163,7 @@ int wcn_sys_power_clock_unsupport(bool is_btwf_sys)
 		return -1;
 	}
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -1174,7 +1174,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1187,7 +1187,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x640203a8:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x23a8, (0xffff<<8)); /* clear to 0 */
@@ -1196,7 +1196,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 			0x13a8, (0x0204<<8)); /* set to 0204 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(Delay cnt)!\n", reg_val);
+	WCN_DBG("REG 0x640203a8:val=0x%x(Delay cnt)!\n", reg_val);
 
 	/*
 	 * PMU: WCN SYS Auto Shutdown Clear
@@ -1209,7 +1209,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 			0x23a8, (0x1<<24));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(auto shutdown clear)!\n",
+	WCN_DBG("REG 0x640203a8:val=0x%x(auto shutdown clear)!\n",
 		     reg_val);
 
 	/*
@@ -1224,7 +1224,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 			0x23a8, (0x1<<25));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(force shutdown clear)!\n",
+	WCN_DBG("REG 0x640203a8:val=0x%x(force shutdown clear)!\n",
 			 reg_val);
 	/* usleep_range(500, 500); */ /* wait power on */
 	/* check power on */
@@ -1239,13 +1239,13 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x0818, &reg_val);
-	WCN_INFO("REG 0x64020818:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020818:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x2818, (0x1<<7));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x0818, &reg_val);
-	WCN_INFO("REG 0x64020818:val=0x%x(Force deep clear)!\n",
+	WCN_DBG("REG 0x64020818:val=0x%x(Force deep clear)!\n",
 		     reg_val);
 
 	/* usleep_range(500, 500); */ /* wait exit deep sleep */
@@ -1276,7 +1276,7 @@ int wcn_sys_power_up(struct wcn_device *wcn_dev)
 	} else
 		WCN_INFO("GNSS shutdown hold, polling is not required\n");
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -1288,7 +1288,7 @@ int wcn_sys_power_down(struct wcn_device *wcn_dev)
 #if 1	//SPECIAL_DEBUG_EN	//Special debug
 	u32 reg_val = 0;
 #endif
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1306,7 +1306,7 @@ int wcn_sys_power_down(struct wcn_device *wcn_dev)
 			0x13a8, (0x1<<24));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(auto shutdown set)!\n",
+	WCN_DBG("REG 0x640203a8:val=0x%x(auto shutdown set)!\n",
 		     reg_val);
 #endif
 	wcn_ip_allow_sleep(wcn_dev, true);
@@ -1318,7 +1318,7 @@ int wcn_sys_power_down(struct wcn_device *wcn_dev)
 	}
 #endif
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -1332,7 +1332,7 @@ bool wcn_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -1342,14 +1342,14 @@ bool wcn_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					 0x0860, &reg_val);
-		WCN_INFO("REG 0x64020860:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64020860:val=0x%x!\n", reg_val);
 		if ((reg_val & 0xF0000000) != (0x6<<28)) {
-			WCN_INFO("wcn is not wakeup!\n");
+			WCN_DBG("wcn is not wakeup!\n");
 			return false;
 		}
 	}
 
-	WCN_INFO("wcn is wakeup!\n");
+	WCN_DBG("wcn is wakeup!\n");
 	return true;
 }
 
@@ -1363,7 +1363,7 @@ bool wcn_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -1373,14 +1373,14 @@ bool wcn_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					 0x0860, &reg_val);
-		WCN_INFO("REG 0x64020860:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64020860:val=0x%x!\n", reg_val);
 		if ((reg_val & 0xF0000000) != (0x0<<28)) {
-			WCN_INFO("wcn isn't deepsleep!\n");
+			WCN_DBG("wcn isn't deepsleep!\n");
 			return false;
 		}
 	}
 
-	WCN_INFO("wcn is deepsleep!\n");
+	WCN_DBG("wcn is deepsleep!\n");
 	return true;
 }
 
@@ -1394,7 +1394,7 @@ bool wcn_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -1404,14 +1404,14 @@ bool wcn_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 					 0x0538, &reg_val);
-		WCN_INFO("REG 0x64020538:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64020538:val=0x%x!\n", reg_val);
 		if (((reg_val)&(0x1f<<24)) != 0) {
-			WCN_INFO("wcn isn't poweron!\n");
+			WCN_DBG("wcn isn't poweron!\n");
 			return false;
 		}
 	}
 
-	WCN_INFO("wcn is poweron!\n");
+	WCN_DBG("wcn is poweron!\n");
 	return true;
 }
 
@@ -1442,7 +1442,7 @@ bool wcn_sys_is_shutdown_status(struct wcn_device *wcn_dev)
 		}
 	}
 
-	WCN_INFO("wcn is shutdown!(i=%d, 0x64020538:0x%x)\n", i, reg_val);
+	WCN_DBG("wcn is shutdown!(i=%d, 0x64020538:0x%x)\n", i, reg_val);
 	return true;
 }
 
@@ -1462,7 +1462,7 @@ int wcn_ip_allow_sleep(struct wcn_device *wcn_dev, bool allow)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x00c4, &reg_val);
-	WCN_INFO("REG 0x408800c4:val=0x%x, allow=%d!\n",
+	WCN_DBG("REG 0x408800c4:val=0x%x, allow=%d!\n",
 		reg_val, allow);
 	if (allow)
 		reg_val = 0xffffffff;
@@ -1478,7 +1478,7 @@ int wcn_ip_allow_sleep(struct wcn_device *wcn_dev, bool allow)
 	if (allow == false) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 					 0x00c4, &reg_val);
-		WCN_INFO("Set REG 0x408800c4:val=0x%x(wcn stop ip)!\n",
+		WCN_DBG("Set REG 0x408800c4:val=0x%x(wcn stop ip)!\n",
 			      reg_val);
 	}
 
@@ -1495,7 +1495,7 @@ int wcn_sys_allow_deep_sleep(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1511,14 +1511,14 @@ int wcn_sys_allow_deep_sleep(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0090, &reg_val);
-	WCN_INFO("REG 0x4080c090:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c090:val=0x%x!\n", reg_val);
 	reg_val |= (0x1<<30);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x0090, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0090, &reg_val);
-	WCN_INFO("REG 0x4080c090:val=0x%x(sfware core lv en)!\n",
+	WCN_DBG("REG 0x4080c090:val=0x%x(sfware core lv en)!\n",
 		      reg_val);
 
 	wcn_ip_allow_sleep(wcn_dev, true);
@@ -1532,7 +1532,7 @@ int wcn_sys_allow_deep_sleep(struct wcn_device *wcn_dev)
  */
 int wcn_sys_forbid_deep_sleep(struct wcn_device *wcn_dev)
 {
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1564,7 +1564,7 @@ bool wcn_sys_polling_poweron(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS wakeup */
 	while (i < WCN_SYS_POWERON_WAKEUP_POLLING_COUNT) {
 		if (wcn_sys_is_poweron_status(wcn_dev)) {
-			WCN_INFO("wcn sys poweron i=%d!\n",
+			WCN_DBG("wcn sys poweron i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1584,7 +1584,7 @@ bool wcn_sys_polling_powerdown(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS shutdown */
 	while (i < WCN_SYS_SHUTDOWN_POLLING_COUNT) {
 		if (wcn_sys_is_shutdown_status(wcn_dev)) {
-			WCN_INFO("wcn sys shutdown i=%d!\n",
+			WCN_DBG("wcn sys shutdown i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1604,7 +1604,7 @@ bool wcn_sys_polling_wakeup(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS wakeup */
 	while (i < WCN_SYS_POWERON_WAKEUP_POLLING_COUNT) {
 		if (wcn_sys_is_wakeup_status(wcn_dev)) {
-			WCN_INFO("wcn sys wakeup i=%d!\n",
+			WCN_DBG("wcn sys wakeup i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1624,7 +1624,7 @@ bool wcn_sys_polling_deepsleep(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS deepsleep */
 	while (i < WCN_SYS_DEEPSLEEP_POLLING_COUNT) {
 		if (wcn_sys_is_deepsleep_status(wcn_dev)) {
-			WCN_INFO("wcn sys deepsleep i=%d!\n", i);
+			WCN_DBG("wcn sys deepsleep i=%d!\n", i);
 			return true;
 		}
 
@@ -1643,7 +1643,7 @@ bool btwf_sys_polling_deepsleep(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS wakeup */
 	while (i < BTWF_SYS_DEEPSLEEP_POLLING_COUNT) {
 		if (btwf_sys_is_deepsleep_status(wcn_dev)) {
-			WCN_INFO("btwf sys is deepsleep i=%d!\n",
+			WCN_DBG("btwf sys is deepsleep i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1663,7 +1663,7 @@ bool btwf_sys_polling_wakeup(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS wakeup */
 	while (i < BTWF_SYS_WAKEUP_POLLING_COUNT) {
 		if (btwf_sys_is_wakeup_status(wcn_dev)) {
-			WCN_INFO("btwf sys is wakeup i=%d!\n",
+			WCN_DBG("btwf sys is wakeup i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1683,7 +1683,7 @@ bool btwf_sys_polling_poweron(struct wcn_device *wcn_dev)
 	/* Polling BTWF SYS poweron */
 	while (i < BTWF_SYS_POWERON_POLLING_COUNT) {
 		if (btwf_sys_is_poweron_status(wcn_dev)) {
-			WCN_INFO("btwf sys is poweron i=%d!\n",
+			WCN_DBG("btwf sys is poweron i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1703,7 +1703,7 @@ bool btwf_sys_polling_powerdown(struct wcn_device *wcn_dev)
 	/* Polling BTWF SYS powerdown */
 	while (i < BTWF_SYS_POWERDOWN_POLLING_COUNT) {
 		if (btwf_sys_is_powerdown_status(wcn_dev)) {
-			WCN_INFO("btwf sys is powerdown i=%d!\n",
+			WCN_DBG("btwf sys is powerdown i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1723,7 +1723,7 @@ bool gnss_sys_polling_wakeup(struct wcn_device *wcn_dev)
 	/* Polling WCN SYS wakeup */
 	while (i < GNSS_SYS_WAKEUP_POLLING_COUNT) {
 		if (gnss_sys_is_wakeup_status(wcn_dev)) {
-			WCN_INFO("gnss sys is wakeup i=%d!\n",
+			WCN_DBG("gnss sys is wakeup i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1743,7 +1743,7 @@ bool gnss_sys_polling_deepsleep(struct wcn_device *wcn_dev)
 	/* Polling GNSS SYS wakeup */
 	while (i < GNSS_SYS_DEEPSLEEP_POLLING_COUNT) {
 		if (gnss_sys_is_deepsleep_status(wcn_dev)) {
-			WCN_INFO("gnss sys is deepsleep i=%d!\n",
+			WCN_DBG("gnss sys is deepsleep i=%d!\n",
 					  i);
 			return true;
 		}
@@ -1763,7 +1763,7 @@ bool gnss_sys_polling_poweron(struct wcn_device *wcn_dev)
 	/* Polling BTWF SYS poweron */
 	while (i < GNSS_SYS_POWERON_POLLING_COUNT) {
 		if (gnss_sys_is_poweron_status(wcn_dev)) {
-			WCN_INFO("gnss sys is poweron i=%d!\n", i);
+			WCN_DBG("gnss sys is poweron i=%d!\n", i);
 			return true;
 		}
 
@@ -1782,7 +1782,7 @@ bool gnss_sys_polling_powerdown(struct wcn_device *wcn_dev)
 	/* Polling BTWF SYS poweron */
 	while (i < GNSS_SYS_POWERDOWN_POLLING_COUNT) {
 		if (gnss_sys_is_powerdown_status(wcn_dev)) {
-			WCN_INFO("gnss sys is powerdown i=%d!\n", i);
+			WCN_DBG("gnss sys is powerdown i=%d!\n", i);
 			return true;
 		}
 
@@ -1802,7 +1802,7 @@ bool gnss_sys_polling_wakeup_poweron(struct wcn_device *wcn_dev)
 	while (i < GNSS_SYS_POWERON_WAKEUP_POLLING_COUNT) {
 		if (gnss_sys_is_poweron_status(wcn_dev) &&
 			gnss_sys_is_wakeup_status(wcn_dev)) {
-			WCN_INFO("gnss sys wakeup i=%d!\n", i);
+			WCN_DBG("gnss sys wakeup i=%d!\n", i);
 			return true;
 		}
 
@@ -1821,7 +1821,7 @@ int btwf_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1830,7 +1830,7 @@ int btwf_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 	/* force deep sleep */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("REG 0x4080c098:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c098:val=0x%x!\n", reg_val);
 	/* btwf_ss_force_deep_sleep Bit[3] default 0=>1 */
 	reg_val |= (0x1<<3);
 	wcn_regmap_raw_write_bit(
@@ -1838,7 +1838,7 @@ int btwf_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x(force deep)!\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x(force deep)!\n",
 		      reg_val);
 
 	/* btwf_ss_arm_sys_pd_auto_en Bit[12] default 1=>1
@@ -1850,7 +1850,7 @@ int btwf_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x(auto shutdown)!\n",
 		      reg_val);
 
 	return 0;
@@ -1863,7 +1863,7 @@ int gnss_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1872,7 +1872,7 @@ int gnss_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 	/* force deep sleep */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("REG 0x4080c0c8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c0c8:val=0x%x!\n", reg_val);
 	/* gnss_ss_force_deep_sleep Bit[3] default 0=>1 */
 	reg_val |= (0x1<<3);
 	wcn_regmap_raw_write_bit(
@@ -1880,7 +1880,7 @@ int gnss_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 			0x00c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(force deep)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(force deep)!\n",
 		      reg_val);
 
 	/* gnss_ss_arm_sys_pd_auto_en Bit[12] default 1=>1
@@ -1892,7 +1892,7 @@ int gnss_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 			0x00c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
 		      reg_val);
 
 	return 0;
@@ -1906,7 +1906,7 @@ int wcn_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1920,14 +1920,14 @@ int wcn_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("REG 0x640203a8:val=0x%x(auto shutdown)!\n",
 			  reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x13a8, (0x1<<24));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x03a8, &reg_val);
-	WCN_INFO("REG 0x640203a8:val=0x%x(auto shutdown set)!\n",
+	WCN_DBG("REG 0x640203a8:val=0x%x(auto shutdown set)!\n",
 		     reg_val);
 
 	/*
@@ -1937,13 +1937,13 @@ int wcn_sys_force_deep_to_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x0818, &reg_val);
-	WCN_INFO("REG 0x64020818:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64020818:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_PMU_APB],
 			0x1818, (0x1<<7));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_PMU_APB],
 				 0x0818, &reg_val);
-	WCN_INFO("REG 0x64020818:val=0x%x(Force deep clear)!\n",
+	WCN_DBG("REG 0x64020818:val=0x%x(Force deep clear)!\n",
 		     reg_val);
 
 	/* check enter deep sleep */
@@ -1965,7 +1965,7 @@ int btwf_sys_wcnpll_power_down(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -1974,7 +1974,7 @@ int btwf_sys_wcnpll_power_down(struct wcn_device *wcn_dev)
 	/* wcn_aon_apb bpll1/2_pdn clear */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x0040, &reg_val);
-	WCN_INFO("REG 0x4080c040:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c040:val=0x%x!\n", reg_val);
 	/* wcn_aon_apb bpll1/2_pdn Bit[1:0] default 1=>0 */
 	reg_val &= ~((0x1<<0)|(0x1<<1));
 	wcn_regmap_raw_write_bit(
@@ -1982,11 +1982,11 @@ int btwf_sys_wcnpll_power_down(struct wcn_device *wcn_dev)
 			0x0040, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x0040, &reg_val);
-	WCN_INFO("Set REG 0x4080c040:val=0x%x(shutdown bpll1/2_pdn)!\n",
+	WCN_DBG("Set REG 0x4080c040:val=0x%x(shutdown bpll1/2_pdn)!\n",
 		    reg_val);
 
 	is_wcnpll_power_down = 1;
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -1994,7 +1994,7 @@ int btwf_sys_wcnpll_power_on(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2003,7 +2003,7 @@ int btwf_sys_wcnpll_power_on(struct wcn_device *wcn_dev)
 	/* wcn_aon_apb bpll1/2_pdn set */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x0040, &reg_val);
-	WCN_INFO("REG 0x4080c040:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c040:val=0x%x!\n", reg_val);
 	/* wcn_aon_apb bpll1/2_pdn Bit[1:0] default 0=>1 */
 	reg_val |= ((0x1<<0)|(0x1<<1));
 	wcn_regmap_raw_write_bit(
@@ -2011,10 +2011,10 @@ int btwf_sys_wcnpll_power_on(struct wcn_device *wcn_dev)
 			0x0040, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x0040, &reg_val);
-	WCN_INFO("Set REG 0x4080c040:val=0x%x(poweron bpll1/2_pdn)!\n",
+	WCN_DBG("Set REG 0x4080c040:val=0x%x(poweron bpll1/2_pdn)!\n",
 		    reg_val);
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -2031,7 +2031,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 #endif
 	u32 *value;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2049,7 +2049,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 			0x0054, &reg_val);
-		WCN_INFO("Set REG 0x40880054:val=0x%x(RST PAD Setting)!\n",
+		WCN_DBG("Set REG 0x40880054:val=0x%x(RST PAD Setting)!\n",
 			reg_val);
 		value = &reg_val;
 		status = wcn_get_reset_reg_setting();
@@ -2064,7 +2064,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 		}
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 			0x0054, &reg_val);
-		WCN_INFO("Set REG 0x40880054:val=0x%x(RST PAD Setting)!\n",
+		WCN_DBG("Set REG 0x40880054:val=0x%x(RST PAD Setting)!\n",
 			reg_val);
 	}
 	/*
@@ -2074,7 +2074,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[0],sys Bit[2],cache Bit[4],busmoitor Bit[6] */
 	reg_val |= ((0x1<<0)|(0x1<<2)|(0x1<<4)|(0x1<<6));
 	wcn_regmap_raw_write_bit(
@@ -2082,13 +2082,13 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
 	/* force deep sleep clear Bit[3] =>0 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("REG 0x4080c098:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c098:val=0x%x!\n", reg_val);
 	/* btwf_ss_force_deep_sleep Bit[3] default 0=>0 */
 	reg_val &= (~(0x1<<3));
 	wcn_regmap_raw_write_bit(
@@ -2096,7 +2096,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x(clear deep)!\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x(clear deep)!\n",
 		      reg_val);
 
 	/*
@@ -2110,7 +2110,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x(clr auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x(clr auto shutdown)!\n",
 		      reg_val);
 
 	/* [SharkL6][WCN]BTWF poweron add reg set bit[2]=0*/
@@ -2120,7 +2120,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x!(btwf_ss_arm_sys_power_down)\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x!(btwf_ss_arm_sys_power_down)\n",
 			 reg_val);
 
 	reg_val = 0xffffffff;
@@ -2128,7 +2128,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 				 0x2354, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x0354, &reg_val);
-	WCN_INFO("Set REG 0x64000354:val=0x%x!\n", reg_val);
+	WCN_DBG("Set REG 0x64000354:val=0x%x!\n", reg_val);
 
 
 	/* check btwf sys power on whether succ */
@@ -2145,13 +2145,13 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 	/* BTWF SYS boot select from DDR:Bit[25:24] => 3 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_BTWF_AHB],
 				 0x0410, &reg_val);
-	WCN_INFO("REG 0x40130410:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x40130410:val=0x%x!\n", reg_val);
 	reg_val |= (0x3<<24);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_BTWF_AHB],
 			0x0410, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_BTWF_AHB],
 				 0x0410, &reg_val);
-	WCN_INFO("Set REG 0x40130410:val=0x%x(DDR Boot)!\n", reg_val);
+	WCN_DBG("Set REG 0x40130410:val=0x%x(DDR Boot)!\n", reg_val);
 
 	/* BTWF SYS SYNC Value set:
 	 * WARNING:WARNING:It will be used by BTWF SYS CPU.
@@ -2159,7 +2159,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x004c, &reg_val);
 
-	WCN_INFO("REG 0x4088004c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088004c:val=0x%x!\n", reg_val);
 
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
 		wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
@@ -2171,7 +2171,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x004c, &reg_val);
-	WCN_INFO("Set REG 0x4088004c:val=0x%x(Sync address)!\n",
+	WCN_DBG("Set REG 0x4088004c:val=0x%x(Sync address)!\n",
 		      reg_val);
 
 	/* Set SYS,CPU,Cache at release status
@@ -2179,7 +2179,7 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[0],sys Bit[2],cache Bit[4],busmoitor Bit[6] */
 	reg_val &= ~((0x1<<0)|(0x1<<2)|(0x1<<4)|(0x1<<6));
 	wcn_regmap_raw_write_bit(
@@ -2187,10 +2187,10 @@ int btwf_sys_poweron(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -2198,7 +2198,7 @@ int btwf_gnss_force_unshutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2208,7 +2208,7 @@ int btwf_gnss_force_unshutdown(struct wcn_device *wcn_dev)
 	reg_val = (0x6<<21);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 						0x0360, &reg_val);
-	WCN_INFO("REG 0x64000360:val=0x%x!(unshutdown)\n", reg_val);
+	WCN_DBG("REG 0x64000360:val=0x%x!(unshutdown)\n", reg_val);
 
 	return 0;
 
@@ -2218,7 +2218,7 @@ int pll1_pll2_stable_time(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2227,57 +2227,57 @@ int pll1_pll2_stable_time(struct wcn_device *wcn_dev)
 	/* Bit[27:12] 0x1458 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x3c8, &reg_val);
-	WCN_INFO("REG 0x4080c3c8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3c8:val=0x%x!\n", reg_val);
 	reg_val |= (0x1458<<12);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x3c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x3c8, &reg_val);
-	WCN_INFO("SET REG 0x4080c3c8:val=0x%x!(btwf pll2)\n", reg_val);
+	WCN_DBG("SET REG 0x4080c3c8:val=0x%x!(btwf pll2)\n", reg_val);
 
 	/* Bit[27:12] 0x1458 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x3c4, &reg_val);
-	WCN_INFO("REG 0x4080c3c4:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3c4:val=0x%x!\n", reg_val);
 	reg_val |= (0x1458<<12);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x3c4, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x3c4, &reg_val);
-	WCN_INFO("SET REG 0x4080c3c4:val=0x%x!(btwf pll1)\n", reg_val);
+	WCN_DBG("SET REG 0x4080c3c4:val=0x%x!(btwf pll1)\n", reg_val);
 
 	/* Bit[27:12] 0x1458 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x3cc, &reg_val);
-	WCN_INFO("REG 0x4080c3cc:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3cc:val=0x%x!\n", reg_val);
 	reg_val |= (0x1458<<12);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x3cc, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x3cc, &reg_val);
-	WCN_INFO("SET REG 0x4080c3cc:val=0x%x!(gnss pll)\n", reg_val);
+	WCN_DBG("SET REG 0x4080c3cc:val=0x%x!(gnss pll)\n", reg_val);
 
 	/* Bit[23:16] 0x37 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x19c, &reg_val);
-	WCN_INFO("REG 0x4080c19c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c19c:val=0x%x!\n", reg_val);
 	reg_val |= (0x37<<16);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				0x19c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x19c, &reg_val);
-	WCN_INFO("SET REG 0x4080c19c:val=0x%x!(btwf pll1)\n", reg_val);
+	WCN_DBG("SET REG 0x4080c19c:val=0x%x!(btwf pll1)\n", reg_val);
 
 	/* Bit[23:16] 0x37 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x168, &reg_val);
-	WCN_INFO("REG 0x4080c168:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c168:val=0x%x!\n", reg_val);
 	reg_val |= (0x7<<16);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x168, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 			0x168, &reg_val);
-	WCN_INFO("SET REG 0x4080c168:val=0x%x!(btwf pll2)\n", reg_val);
+	WCN_DBG("SET REG 0x4080c168:val=0x%x!(btwf pll2)\n", reg_val);
 
 	return 0;
 
@@ -2287,7 +2287,7 @@ int btwf_clear_force_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2297,7 +2297,7 @@ int btwf_clear_force_shutdown(struct wcn_device *wcn_dev)
 	reg_val = 0x6<<21;
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 			0x0360, &reg_val);
-	WCN_INFO("REG 0x64000360:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x64000360:val=0x%x!\n", reg_val);
 
 	return 0;
 
@@ -2310,7 +2310,7 @@ void gnss_shutdown_hold(struct wcn_device *wcn_dev)
 	/*GNSS deepsleep/shutdown hold */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x0350, &reg_val);
-	WCN_INFO("REG 0x64000350:val=0x%x!\n",
+	WCN_DBG("REG 0x64000350:val=0x%x!\n",
 			 reg_val);
 
 	reg_val = (1 << 7) | (1 << 22) | (1 << 23);
@@ -2318,7 +2318,7 @@ void gnss_shutdown_hold(struct wcn_device *wcn_dev)
 				 0x1350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x0350, &reg_val);
-	WCN_INFO("Set REG 0x64000350:val=0x%x!(GNSS sleep/shutdown hold)\n", reg_val);
+	WCN_DBG("Set REG 0x64000350:val=0x%x!(GNSS sleep/shutdown hold)\n", reg_val);
 }
 
 void gnss_shutdown_release(struct wcn_device *wcn_dev)
@@ -2328,7 +2328,7 @@ void gnss_shutdown_release(struct wcn_device *wcn_dev)
 	/*GNSS deepsleep/shutdown hold */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x0350, &reg_val);
-	WCN_INFO("REG 0x64000350:val=0x%x!\n",
+	WCN_DBG("REG 0x64000350:val=0x%x!\n",
 			 reg_val);
 
 	reg_val = (1 << 7) | (1 << 22) | (1 << 23);
@@ -2336,7 +2336,7 @@ void gnss_shutdown_release(struct wcn_device *wcn_dev)
 				 0x2350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x0350, &reg_val);
-	WCN_INFO("Set REG 0x64000350:val=0x%x!(GNSS sleep/shutdown release)\n", reg_val);
+	WCN_DBG("Set REG 0x64000350:val=0x%x!(GNSS sleep/shutdown release)\n", reg_val);
 }
 
 int wcn_poweron_device(struct wcn_device *wcn_dev)
@@ -2344,11 +2344,11 @@ int wcn_poweron_device(struct wcn_device *wcn_dev)
 	int ret;
 	bool is_marlin;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 
 	is_marlin = wcn_dev_is_marlin(wcn_dev);
 	if (is_marlin)
-		WCN_INFO("[+]%s: btwf!\n", __func__);
+		WCN_DBG("[+]%s: btwf!\n", __func__);
 
 	if (is_marlin) { /*BTWF*/
 		if (!wcn_subsys_active_is_gnss_only()) { /* gnss off */
@@ -2363,7 +2363,7 @@ int wcn_poweron_device(struct wcn_device *wcn_dev)
 	if (wcn_subsys_active_num() != 0) {
 		if (is_marlin && wcn_subsys_active_is_gnss_only()) {
 			/* Enable vddwifipa(see wcn_power_clock_support)*/
-			WCN_INFO("[-]%s: Enable VDDWIFIPA when GNSS is turned on\n", __func__);
+			WCN_DBG("[-]%s: Enable VDDWIFIPA when GNSS is turned on\n", __func__);
 			usleep_range(VDDWIFIPA_VDDCON_MIN_INTERVAL_TIME,
 				VDDWIFIPA_VDDCON_MAX_INTERVAL_TIME);
 			ret = wcn_marlin_power_enable_vddwifipa(true);
@@ -2443,7 +2443,7 @@ int wcn_poweron_device(struct wcn_device *wcn_dev)
 		 * which may cause DDR exception and cause boot failure.
 		 * Solution: gnss_shutdown_release/gnss_shutdown_hold
 		 */
-		WCN_INFO("Ignore GNSS force deepsleep/shutdown\n");
+		WCN_DBG("Ignore GNSS force deepsleep/shutdown\n");
 		/*
 		ret = gnss_sys_force_deep_to_shutdown(wcn_dev);
 		if (ret) {
@@ -2489,7 +2489,7 @@ int wcn_poweron_device(struct wcn_device *wcn_dev)
 		}
 	}
 
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 	return 0;
 }
 
@@ -2513,7 +2513,7 @@ int btwf_sys_wait_cp2_wfi(struct wcn_device *wcn_dev)
 		}
 	} while (!ktime_after(ktime_get(), time_end));
 
-	WCN_INFO("%s BTWF CP2 deepsleep:%s\n", __func__, cp2_deepsleep ? "yes" : "no");
+	WCN_DBG("%s BTWF CP2 deepsleep:%s\n", __func__, cp2_deepsleep ? "yes" : "no");
 
 	return cp2_deepsleep;
 }
@@ -2525,7 +2525,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2538,7 +2538,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 	btwf_sys_wait_cp2_wfi(wcn_dev);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("REG 0x4080c098:val=0x%x!\n",
+	WCN_DBG("REG 0x4080c098:val=0x%x!\n",
 		      reg_val);
 	reg_val |= (0x1<<12);
 	wcn_regmap_raw_write_bit(
@@ -2546,7 +2546,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 			0x0098, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0098, &reg_val);
-	WCN_INFO("Set REG 0x4080c098:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c098:val=0x%x(auto shutdown)!\n",
 		      reg_val);
 
 	if (btwf_sys_polling_deepsleep(wcn_dev) == false) {
@@ -2566,7 +2566,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[0],sys Bit[2],cache Bit[4],busmoitor Bit[6] */
 	reg_val |= ((0x1<<0)|(0x1<<2)|(0x1<<4)|(0x1<<6));
 	wcn_regmap_raw_write_bit(
@@ -2574,7 +2574,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
 	/*
@@ -2586,7 +2586,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0320, &reg_val);
-	WCN_INFO("REG 0x4080c0320:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c0320:val=0x%x!\n", reg_val);
 	/* Bit[5]:1:enable adjust, 0: disable adjust */
 	reg_val |= (0x1<<5);
 	wcn_regmap_raw_write_bit(
@@ -2594,7 +2594,7 @@ int btwf_sys_shutdown(struct wcn_device *wcn_dev)
 			0x0320, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0320, &reg_val);
-	WCN_INFO("Set REG 0x4080c0320:val=0x%x(vol adj en)!\n",
+	WCN_DBG("Set REG 0x4080c0320:val=0x%x(vol adj en)!\n",
 			  reg_val);
 
 	return 0;
@@ -2607,7 +2607,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2619,7 +2619,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
 		      reg_val);
 	reg_val |= (0x1<<12);
 	wcn_regmap_raw_write_bit(
@@ -2627,7 +2627,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 			0x00c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(auto shutdown)!\n",
 		      reg_val);
 
 	if (gnss_sys_polling_deepsleep(wcn_dev) == false) { /* isn't deep */
@@ -2647,7 +2647,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[1],cache Bit[5] */
 	reg_val |= ((0x1<<1)|(0x1<<5));
 	wcn_regmap_raw_write_bit(
@@ -2655,7 +2655,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
 	/*
@@ -2665,7 +2665,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0320, &reg_val);
-	WCN_INFO("REG 0x4080c0320:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c0320:val=0x%x!\n", reg_val);
 	/* Bit[5]:1:enable adjust, 0: disable adjust */
 	reg_val &= ~(0x1<<5);
 	wcn_regmap_raw_write_bit(
@@ -2673,7 +2673,7 @@ int gnss_sys_shutdown(struct wcn_device *wcn_dev)
 			0x0320, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x0320, &reg_val);
-	WCN_INFO("Set REG 0x4080c0320:val=0x%x(vol adj dis)!\n",
+	WCN_DBG("Set REG 0x4080c0320:val=0x%x(vol adj dis)!\n",
 			  reg_val);
 
 	/* workround1 use after chip eco D-die sys dosen't sleep*/
@@ -2691,7 +2691,7 @@ bool btwf_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2702,9 +2702,9 @@ bool btwf_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0364, &reg_val);
-		WCN_INFO("REG 0x64000364:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000364:val=0x%x!\n", reg_val);
 		if ((reg_val & (0xf<<7)) != (0x6<<7)) {
-			WCN_INFO("btwf isn't wakeup!\n");
+			WCN_DBG("btwf isn't wakeup!\n");
 			return false;
 		}
 	}
@@ -2712,14 +2712,14 @@ bool btwf_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	/* bit[21:12]:6 wakeup, others(0:deep sleep...) isn't. */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x03b4, &reg_val);
-	WCN_INFO("REG 0x4080c3b4:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3b4:val=0x%x!\n", reg_val);
 	/* just low 4 bits is for wakeup or deep sleep status */
 	if ((reg_val & (0xf<<12)) == (0x6<<12)) {
-		WCN_INFO("btwf is wakeup!\n");
+		WCN_DBG("btwf is wakeup!\n");
 		return true;
 	}
 #endif
-	WCN_INFO("btwf is wakeup!\n");
+	WCN_DBG("btwf is wakeup!\n");
 	return true;
 }
 
@@ -2733,7 +2733,7 @@ bool btwf_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2744,9 +2744,9 @@ bool btwf_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0364, &reg_val);
-		WCN_INFO("REG 0x64000364:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000364:val=0x%x!\n", reg_val);
 		if ((reg_val & (0xf<<7)) != (0x0<<7)) {
-			WCN_INFO("btwf isn't deep sleep!\n");
+			WCN_DBG("btwf isn't deep sleep!\n");
 			return false;
 		}
 	}
@@ -2754,13 +2754,13 @@ bool btwf_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	/* bit[21:12]:6 wakeup, others(0:deep sleep...) isn't. */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x03b4, &reg_val);
-	WCN_INFO("REG 0x4080c3b4:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3b4:val=0x%x!\n", reg_val);
 	if ((reg_val & (0xf<<12)) == (0x0<<12)) {
-		WCN_INFO("btwf is deepsleep!\n");
+		WCN_DBG("btwf is deepsleep!\n");
 		return true;
 	}
 #endif
-	WCN_INFO("btwf is deepsleep!\n");
+	WCN_DBG("btwf is deepsleep!\n");
 	return true;
 }
 
@@ -2774,7 +2774,7 @@ bool gnss_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2785,9 +2785,9 @@ bool gnss_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0364, &reg_val);
-		WCN_INFO("REG 0x64000364:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000364:val=0x%x!\n", reg_val);
 		if ((reg_val & (0xf<<3)) != (0x6<<3)) {
-			WCN_INFO("gnss isn't wakeup!\n");
+			WCN_DBG("gnss isn't wakeup!\n");
 			return false;
 		}
 	}
@@ -2795,14 +2795,14 @@ bool gnss_sys_is_wakeup_status(struct wcn_device *wcn_dev)
 	/* bit[21:12]:6 wakeup, others(0:deep sleep...) isn't. */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x03c0, &reg_val);
-	WCN_INFO("REG 0x4080c3c0:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3c0:val=0x%x!\n", reg_val);
 	if ((reg_val & (0xf<<9)) == (0x6<<9)) {
-		WCN_INFO("gnss is wakeup!\n");
+		WCN_DBG("gnss is wakeup!\n");
 		return true;
 	}
 #endif
 
-	WCN_INFO("gnss is wakeup!\n");
+	WCN_DBG("gnss is wakeup!\n");
 	return true;
 }
 
@@ -2816,7 +2816,7 @@ bool gnss_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s?\n", __func__);
+	WCN_DBG("[+]%s?\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2827,9 +2827,9 @@ bool gnss_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0364, &reg_val);
-		WCN_INFO("REG 0x64000364:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000364:val=0x%x!\n", reg_val);
 		if ((reg_val & (0xf<<3)) != (0x0<<3)) {
-			WCN_INFO("gnss isn't deepsleep!\n");
+			WCN_DBG("gnss isn't deepsleep!\n");
 			return false;
 		}
 	}
@@ -2837,13 +2837,13 @@ bool gnss_sys_is_deepsleep_status(struct wcn_device *wcn_dev)
 	/* bit[21:12]:6 wakeup, others(0:deep sleep...) isn't. */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x03c0, &reg_val);
-	WCN_INFO("REG 0x4080c3c0:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c3c0:val=0x%x!\n", reg_val);
 	if ((reg_val & (0xf<<9)) == (0x0<<9)) {
-		WCN_INFO("gnss is deepsleep!\n");
+		WCN_DBG("gnss is deepsleep!\n");
 		return true;
 	}
 #endif
-	WCN_INFO("gnss is deepsleep!\n");
+	WCN_DBG("gnss is deepsleep!\n");
 	return true;
 }
 
@@ -2858,7 +2858,7 @@ int btwf_sys_force_exit_deep_sleep(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2867,13 +2867,13 @@ int btwf_sys_force_exit_deep_sleep(struct wcn_device *wcn_dev)
 	/* Bit[16] clear to 0 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x034c, &reg_val);
-	WCN_INFO("REG 0x6400034c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x6400034c:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_AON_APB],
 			0x234c, (0x1<<16));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x034c, &reg_val);
-	WCN_INFO("Set REG 0x6400034c:val=0x%x(exit deep)!\n",
+	WCN_DBG("Set REG 0x6400034c:val=0x%x(exit deep)!\n",
 		      reg_val);
 
 	/*
@@ -2881,7 +2881,7 @@ int btwf_sys_force_exit_deep_sleep(struct wcn_device *wcn_dev)
 	 * The XTL, XTL-BUF, PLL1, PLL2 stable time is about 7.2 ms
 	 */
 	msleep(WCN_SYS_POWER_ON_WAKEUP_TIME);
-	WCN_INFO("[-]%s\n", __func__);
+	WCN_DBG("[-]%s\n", __func__);
 
 	return 0;
 }
@@ -2890,7 +2890,7 @@ int btwf_sys_clear_force_exit_deep_sleep(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -2899,13 +2899,13 @@ int btwf_sys_clear_force_exit_deep_sleep(struct wcn_device *wcn_dev)
 	/* Bit[16] set to 1 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x034c, &reg_val);
-	WCN_INFO("REG 0x6400034c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x6400034c:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(
 			wcn_dev->rmap[REGMAP_AON_APB],
 			0x134c, (0x1<<16));
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 				 0x034c, &reg_val);
-	WCN_INFO("Set REG 0x6400034c:val=0x%x(exit deep)!\n",
+	WCN_DBG("Set REG 0x6400034c:val=0x%x(exit deep)!\n",
 			  reg_val);
 
 	return 0;
@@ -2923,7 +2923,7 @@ bool btwf_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2934,9 +2934,9 @@ bool btwf_sys_is_poweron_status(struct wcn_device *wcn_dev)
 		/* Bit[29:25] 0x0 means poweron status */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0360, &reg_val);
-		WCN_INFO("REG 0x64000360:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000360:val=0x%x!\n", reg_val);
 		if ((reg_val & (0x1f<<25)) != (0x0<<25)) {
-			WCN_INFO("btwf isn't poweron!\n");
+			WCN_DBG("btwf isn't poweron!\n");
 			return false;
 		}
 	}
@@ -2945,15 +2945,15 @@ bool btwf_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x03b0, &reg_val);
-		WCN_INFO("REG 0x4080c3b0:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x4080c3b0:val=0x%x!\n", reg_val);
 		if (((reg_val)&(0x1<<0)) != (0x1<<0)) {
-			WCN_INFO("btwf isn't poweron!\n");
+			WCN_DBG("btwf isn't poweron!\n");
 			return false;
 		}
 	}
 #endif
 
-	WCN_INFO("btwf is poweron!\n");
+	WCN_DBG("btwf is poweron!\n");
 	return true;
 }
 
@@ -2966,7 +2966,7 @@ bool btwf_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -2977,9 +2977,9 @@ bool btwf_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 		/* Bit[29:25] 0x7 means powerdown status */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0360, &reg_val);
-		WCN_INFO("REG 0x64000360:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000360:val=0x%x!\n", reg_val);
 		if ((reg_val & (0x1f<<25)) != (0x7<<25)) {
-			WCN_INFO("btwf isn't powerdown!\n");
+			WCN_DBG("btwf isn't powerdown!\n");
 			return false;
 		}
 	}
@@ -2988,15 +2988,15 @@ bool btwf_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x03b0, &reg_val);
-		WCN_INFO("REG 0x4080c3b0:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x4080c3b0:val=0x%x!\n", reg_val);
 		if (((reg_val)&(0x1<<8)) != (0x1<<8)) {
-			WCN_INFO("btwf isn't powerdown!\n");
+			WCN_DBG("btwf isn't powerdown!\n");
 			return false;
 		}
 	}
 #endif
 
-	WCN_INFO("btwf is powerdown!\n");
+	WCN_DBG("btwf is powerdown!\n");
 	return true;
 }
 
@@ -3009,7 +3009,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -3041,7 +3041,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[1],cache Bit[5] */
 	reg_val |= ((0x1<<1)|(0x1<<5));
 	wcn_regmap_raw_write_bit(
@@ -3049,13 +3049,13 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
 	/* force deep sleep clear */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("REG 0x4080c0c8:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4080c0c8:val=0x%x!\n", reg_val);
 	/* gnss_ss_force_deep_sleep Bit[3] default 0=>0 */
 	reg_val &= (~(0x1<<3));
 	wcn_regmap_raw_write_bit(
@@ -3063,7 +3063,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 			0x00c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(clear deep)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(clear deep)!\n",
 		      reg_val);
 
 	/*
@@ -3076,7 +3076,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 			0x00c8, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 				 0x00c8, &reg_val);
-	WCN_INFO("Set REG 0x4080c0c8:val=0x%x(clr auto shutdown)!\n",
+	WCN_DBG("Set REG 0x4080c0c8:val=0x%x(clr auto shutdown)!\n",
 		      reg_val);
 
 	/* check gnss sys power on whether succ */
@@ -3091,7 +3091,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_GNSS_SYS_AHB],
 				 0x0404, &reg_val);
-	WCN_INFO("REG 0x40b18404:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x40b18404:val=0x%x!\n", reg_val);
 	reg_val |= (0x3<<24);
 	reg_val &= ~0x00ffffff;
 	reg_val |= WCN_GNSS_DDR_OFFSET;
@@ -3099,19 +3099,19 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 			0x0404, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_GNSS_SYS_AHB],
 				 0x0404, &reg_val);
-	WCN_INFO("Set REG 0x40b18404:val=0x%x(DDR Boot)!\n", reg_val);
+	WCN_DBG("Set REG 0x40b18404:val=0x%x(DDR Boot)!\n", reg_val);
 
 	/* GNSS SYS SYNC Value set:
 	 * WARNING:WARNING:It will be used by GNSS SYS CPU.
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x0050, &reg_val);
-	WCN_INFO("REG 0x40880050:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x40880050:val=0x%x!\n", reg_val);
 	wcn_regmap_raw_write_bit(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 			0x0050, WCN_GNSS_SPECIAL_SHARME_MEM_ADDR);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x0050, &reg_val);
-	WCN_INFO("Set REG 0x40880050:val=0x%x(Sync address)!\n",
+	WCN_DBG("Set REG 0x40880050:val=0x%x(Sync address)!\n",
 		      reg_val);
 
 	/* Set SYS,CPU,Cache at release status
@@ -3119,7 +3119,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 	 */
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("REG 0x4088000c:val=0x%x!\n", reg_val);
+	WCN_DBG("REG 0x4088000c:val=0x%x!\n", reg_val);
 	/* cpu Bit[1],cache Bit[5] */
 	reg_val &= ~((0x1<<1)|(0x1<<5));
 	wcn_regmap_raw_write_bit(
@@ -3127,7 +3127,7 @@ int gnss_sys_poweron(struct wcn_device *wcn_dev)
 			0x000c, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_AHB],
 				 0x000c, &reg_val);
-	WCN_INFO("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
+	WCN_DBG("Set REG 0x4088000c:val=0x%x(cpu...reset)!\n",
 		      reg_val);
 
 	/* Restore the default status of BTWF SYS */
@@ -3146,7 +3146,7 @@ bool gnss_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -3157,9 +3157,9 @@ bool gnss_sys_is_poweron_status(struct wcn_device *wcn_dev)
 		/* Bit[9:5] 0x0 means powerdown status */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0360, &reg_val);
-		WCN_INFO("REG 0x64000360:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000360:val=0x%x!\n", reg_val);
 		if ((reg_val & (0x1f<<5)) != (0x0<<5)) {
-			WCN_INFO("gnss isn't poweron!\n");
+			WCN_DBG("gnss isn't poweron!\n");
 			return false;
 		}
 	}
@@ -3168,15 +3168,15 @@ bool gnss_sys_is_poweron_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x03b0, &reg_val);
-		WCN_INFO("REG 0x4080c3b0:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x4080c3b0:val=0x%x!\n", reg_val);
 		if (((reg_val)&(0x1<<6)) != (0x1<<6)) {
-			WCN_INFO("gnss isn't poweron!\n");
+			WCN_DBG("gnss isn't poweron!\n");
 			return false;
 		}
 	}
 #endif
 
-	WCN_INFO("gnss is poweron!\n");
+	WCN_DBG("gnss is poweron!\n");
 	return true;
 }
 
@@ -3188,7 +3188,7 @@ bool gnss_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 	u32 reg_val = 0;
 	int i;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return false;
@@ -3199,9 +3199,9 @@ bool gnss_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 		/* Bit[9:5] 0x7 means powerdown status */
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 					 0x0360, &reg_val);
-		WCN_INFO("REG 0x64000360:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x64000360:val=0x%x!\n", reg_val);
 		if ((reg_val & (0x1f<<5)) != (0x7<<5)) {
-			WCN_INFO("gnss isn't powerdown!\n");
+			WCN_DBG("gnss isn't powerdown!\n");
 			return false;
 		}
 	}
@@ -3210,14 +3210,14 @@ bool gnss_sys_is_powerdown_status(struct wcn_device *wcn_dev)
 	for (i = 0; i < WCN_REG_POLL_STABLE_COUNT; i++) {
 		wcn_regmap_read(wcn_dev->rmap[REGMAP_WCN_AON_APB],
 					 0x03b0, &reg_val);
-		WCN_INFO("REG 0x4080c3b0:val=0x%x!\n", reg_val);
+		WCN_DBG("REG 0x4080c3b0:val=0x%x!\n", reg_val);
 		if (((reg_val)&(0x1<<14)) != (0x1<<14)) {
-			WCN_INFO("gnss isn't powerdown!\n");
+			WCN_DBG("gnss isn't powerdown!\n");
 			return false;
 		}
 	}
 #endif
-	WCN_INFO("gnss is powerdown!\n");
+	WCN_DBG("gnss is powerdown!\n");
 	return true;
 }
 
@@ -3233,7 +3233,7 @@ int wcn_proc_native_start(void *arg)
 		return -ENODEV;
 	}
 
-	WCN_INFO("%s enter\n", wcn_dev->name);
+	WCN_DBG("%s enter\n", wcn_dev->name);
 	is_marlin = wcn_dev_is_marlin(wcn_dev);
 
 	/* when hot restart handset, the DDR value is error */
@@ -3310,7 +3310,7 @@ int wcn_proc_native_stop(void *arg)
 		wcn_regmap_read(wcn_dev->rmap[type],
 				reg_read,
 				&val);
-		WCN_INFO("rmap[%d]:ctrl_shutdown_reg[%d] = 0x%x, val=0x%x\n",
+		WCN_DBG("rmap[%d]:ctrl_shutdown_reg[%d] = 0x%x, val=0x%x\n",
 			 type, iloop_index, reg_read, val);
 
 		set_value =  wcn_dev->ctrl_shutdown_value
@@ -3327,7 +3327,7 @@ int wcn_proc_native_stop(void *arg)
 		wcn_regmap_read(wcn_dev->rmap[type],
 				reg_read,
 				&val);
-		WCN_INFO("ctrl_reg[%d] = 0x%x, val=0x%x\n",
+		WCN_DBG("ctrl_reg[%d] = 0x%x, val=0x%x\n",
 			 iloop_index, reg_read, val);
 	}
 #ifdef CONFIG_SC2342_I
@@ -3357,7 +3357,7 @@ void wcn_power_wq(struct work_struct *pwork)
 			return;
 		}
 	} else {
-		WCN_INFO("start boot :%s\n", wcn_dev->name);
+		WCN_DBG("start boot :%s\n", wcn_dev->name);
 		is_marlin = wcn_dev_is_marlin(wcn_dev);
 		if (!is_marlin)
 			gnss_clear_boot_flag();
@@ -3373,10 +3373,10 @@ void wcn_power_wq(struct work_struct *pwork)
 		wcn_power_enable_sys_domain(true);
 		ret = wcn_proc_native_start(wcn_dev);
 		if (ret) {	/* do no complete download done flag */
-			WCN_INFO("[-]%s: ret=%d!\n", __func__, ret);
+			WCN_DBG("[-]%s: ret=%d!\n", __func__, ret);
 			return;
 		}
-		WCN_INFO("finish %s!\n", ret ? "ERR" : "OK");
+		WCN_DBG("finish %s!\n", ret ? "ERR" : "OK");
 	}
 
 	complete(&wcn_dev->download_done);
@@ -3399,7 +3399,7 @@ static void wcn_clear_ddr_gnss_cali_bit(void)
 			   (phys_addr_t)&s_wssm_phy_offset_p->gnss_flag_addr;
 		}
 		wcn_write_data_to_phy_addr(phy_addr, &value, sizeof(u32));
-		WCN_INFO("set gnss flag off:0x%x\n", value);
+		WCN_DBG("set gnss flag off:0x%x\n", value);
 	}
 	wcn_dev = s_wcn_device.gnss_device;
 	value = GNSS_CALIBRATION_FLAG_CLEAR_VALUE;
@@ -3448,7 +3448,7 @@ static void wcn_show_dev_status(const char *pre_str)
 
 	if (s_wcn_device.btwf_device) {
 		status = s_wcn_device.btwf_device->wcn_open_status;
-		WCN_INFO("%s malrin status[%d] BT:%d FM:%d WIFI:%d MDBG:%d\n",
+		WCN_DBG("%s malrin status[%d] BT:%d FM:%d WIFI:%d MDBG:%d\n",
 			 pre_str, status,
 			 status & (1 << WCN_MARLIN_BLUETOOTH),
 			 status & (1 << WCN_MARLIN_FM),
@@ -3457,7 +3457,7 @@ static void wcn_show_dev_status(const char *pre_str)
 	}
 	if (s_wcn_device.gnss_device) {
 		status = s_wcn_device.gnss_device->wcn_open_status;
-		WCN_INFO("%s gnss status[%d] GPS:%d GNSS_BD:%d\n",
+		WCN_DBG("%s gnss status[%d] GPS:%d GNSS_BD:%d\n",
 			 pre_str, status, status & (1 << WCN_GNSS),
 			 status & (1 << WCN_GNSS_BD));
 	}
@@ -3471,7 +3471,7 @@ int start_integrate_wcn_truely(u32 subsys)
 	u32 subsys_bit = 1 << subsys;
 	unsigned long ret_wait_completion = 0;
 
-	WCN_INFO("start subsys:%d\n", subsys);
+	WCN_DBG("start subsys:%d\n", subsys);
 	ge2_bin_type = subsys;
 	wcn_dev = wcn_get_dev_by_type(subsys_bit);
 	if (!wcn_dev) {
@@ -3484,7 +3484,7 @@ int start_integrate_wcn_truely(u32 subsys)
 
 	/* Check whether opened already */
 	if (wcn_dev->wcn_open_status) {
-		WCN_INFO("%s opened already = %d, subsys=%d!\n",
+		WCN_DBG("%s opened already = %d, subsys=%d!\n",
 			 wcn_dev->name, wcn_dev->wcn_open_status, subsys);
 		wcn_dev->wcn_open_status |= subsys_bit;
 		wcn_show_dev_status("after start1");
@@ -3497,7 +3497,7 @@ int start_integrate_wcn_truely(u32 subsys)
 		if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6) {
 			strncpy(&wcn_dev->firmware_path_ext[0], WCN_GNSSMODEM_FILENAME,
 				FIRMWARE_FILEPATHNAME_LENGTH_MAX - 1);
-			WCN_INFO("wcn gnss modem path=%s\n",
+			WCN_DBG("wcn gnss modem path=%s\n",
 				&wcn_dev->firmware_path_ext[0]);
 
 		} else {
@@ -3505,13 +3505,13 @@ int start_integrate_wcn_truely(u32 subsys)
 				strncpy(&wcn_dev->firmware_path_ext[0], WCN_GNSS_FILENAME,
 					FIRMWARE_FILEPATHNAME_LENGTH_MAX - 1);
 				s_wcn_device.gnss_type = WCN_GNSS_TYPE_GL;
-				WCN_INFO("wcn gnss path=%s\n",
+				WCN_DBG("wcn gnss path=%s\n",
 					&wcn_dev->firmware_path_ext[0]);
 			} else {
 				strncpy(&wcn_dev->firmware_path_ext[0], WCN_GNSS_BD_FILENAME,
 					FIRMWARE_FILEPATHNAME_LENGTH_MAX - 1);
 				s_wcn_device.gnss_type = WCN_GNSS_TYPE_BD;
-				WCN_INFO("wcn bd path=%s\n",
+				WCN_DBG("wcn bd path=%s\n",
 					&wcn_dev->firmware_path_ext[0]);
 			}
 		}
@@ -3583,7 +3583,7 @@ int start_integrate_wcn(u32 subsys)
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6)
 		first_time = 1;
 
-	WCN_INFO("subsys:%d\n", subsys);
+	WCN_DBG("subsys:%d\n", subsys);
 	mutex_lock(&marlin_lock);
 	if (unlikely(sprdwcn_bus_get_carddump_status() != 0)) {
 		WCN_ERR("in dump status subsys=%d!\n", subsys);
@@ -3631,7 +3631,7 @@ int start_integrate_wcn(u32 subsys)
 				return ret;
 			}
 		}
-		WCN_INFO("first time, start gnss and btwf\n");
+		WCN_DBG("first time, start gnss and btwf\n");
 
 		if (s_wcn_device.btwf_device &&
 		    (subsys == WCN_GNSS || subsys == WCN_GNSS_BD)) {
@@ -3666,7 +3666,7 @@ static int wcn_wait_wcn_deep_sleep(struct wcn_device *wcn_dev, int force_sleep)
 		msleep(20);
 	}
 
-	WCN_INFO("wait_sleep_count=%d!\n",
+	WCN_DBG("wait_sleep_count=%d!\n",
 			 wait_sleep_count);
 
 	if (wcn_platform_chip_type() == WCN_PLATFORM_TYPE_QOGIRL6)
@@ -3682,7 +3682,7 @@ int stop_integrate_wcn_truely(u32 subsys)
 	u32 subsys_bit = 1 << subsys;
 	int force_sleep = 0;
 
-	WCN_INFO("stop subsys:%d\n", subsys);
+	WCN_DBG("stop subsys:%d\n", subsys);
 	/* Check Parameter whether valid */
 	wcn_dev = wcn_get_dev_by_type(subsys_bit);
 	if (!wcn_dev) {
@@ -3703,14 +3703,14 @@ int stop_integrate_wcn_truely(u32 subsys)
 	mutex_lock(&wcn_dev->power_lock);
 	wcn_dev->wcn_open_status &= ~subsys_bit;
 	if (wcn_dev->wcn_open_status) {
-		WCN_INFO("%s subsys(%d) close, and subsys(%d) opend\n",
+		WCN_DBG("%s subsys(%d) close, and subsys(%d) opend\n",
 			 wcn_dev->name, subsys, wcn_dev->wcn_open_status);
 		wcn_show_dev_status("after stop1");
 		mutex_unlock(&wcn_dev->power_lock);
 		return 0;
 	}
 
-	WCN_INFO("%s,subsys=%d do stop\n", wcn_dev->name, subsys);
+	WCN_DBG("%s,subsys=%d do stop\n", wcn_dev->name, subsys);
 	if (is_marlin)
 		wcn_set_loopcheck_state(false);
 	/* btwf use the send shutdown cp2 cmd way */
@@ -3737,7 +3737,7 @@ int stop_integrate_wcn_truely(u32 subsys)
 	wcn_sys_deep_sleep_en();
 	wcn_dev->power_state = WCN_POWER_STATUS_OFF;
 
-	WCN_INFO("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
+	WCN_DBG("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
 		 wcn_dev->name, wcn_dev->wcn_open_status,
 		 wcn_dev->power_state, subsys);
 
@@ -3753,7 +3753,7 @@ int btwf_force_deepsleep_aontop(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -3765,7 +3765,7 @@ int btwf_force_deepsleep_aontop(struct wcn_device *wcn_dev)
 		wcn_dev->rmap[REGMAP_AON_APB], 0x1350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 			0x0350, &reg_val);
-	WCN_INFO("Write 0x64000350:val=0x%x!\n", reg_val);
+	WCN_DBG("Write 0x64000350:val=0x%x!\n", reg_val);
 
 
 	return 0;
@@ -3776,7 +3776,7 @@ int btwf_clear_force_deepsleep_aontop(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -3789,7 +3789,7 @@ int btwf_clear_force_deepsleep_aontop(struct wcn_device *wcn_dev)
 			0x2350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 			0x0350, &reg_val);
-	WCN_INFO("Write 0x64000350:val=0x%x!\n", reg_val);
+	WCN_DBG("Write 0x64000350:val=0x%x!\n", reg_val);
 
 	return 0;
 
@@ -3799,7 +3799,7 @@ int btwf_force_shutdown_aontop(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -3812,7 +3812,7 @@ int btwf_force_shutdown_aontop(struct wcn_device *wcn_dev)
 			0x1350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 			0x0350, &reg_val);
-	WCN_INFO("Write 0x64000350:val=0x%x!\n", reg_val);
+	WCN_DBG("Write 0x64000350:val=0x%x!\n", reg_val);
 
 	return 0;
 }
@@ -3821,7 +3821,7 @@ int btwf_clear_force_shutdown_aontop(struct wcn_device *wcn_dev)
 {
 	u32 reg_val = 0;
 
-	WCN_INFO("[+]%s\n", __func__);
+	WCN_DBG("[+]%s\n", __func__);
 	if (wcn_dev == NULL) {
 		WCN_ERR("[-]%s NULL\n", __func__);
 		return -1;
@@ -3834,7 +3834,7 @@ int btwf_clear_force_shutdown_aontop(struct wcn_device *wcn_dev)
 			0x2350, reg_val);
 	wcn_regmap_read(wcn_dev->rmap[REGMAP_AON_APB],
 			0x0350, &reg_val);
-	WCN_INFO("Write 0x64000350:val=0x%x!\n", reg_val);
+	WCN_DBG("Write 0x64000350:val=0x%x!\n", reg_val);
 
 
 	return 0;
@@ -3847,7 +3847,7 @@ int stop_integrate_wcn_module(u32 subsys)
 	u32 subsys_bit = 1 << subsys;
 	int ret;
 
-	WCN_INFO("stop subsys:%d\n", subsys);
+	WCN_DBG("stop subsys:%d\n", subsys);
 	/* Check Parameter whether valid */
 	wcn_dev = wcn_get_dev_by_type(subsys_bit);
 	if (!wcn_dev) {
@@ -3869,14 +3869,14 @@ int stop_integrate_wcn_module(u32 subsys)
 	mutex_lock(&wcn_dev->power_lock);
 	wcn_dev->wcn_open_status &= ~subsys_bit;
 	if (wcn_dev->wcn_open_status) {
-		WCN_INFO("%s subsys(%d) close, and subsys(%d) opend\n",
+		WCN_DBG("%s subsys(%d) close, and subsys(%d) opend\n",
 			 wcn_dev->name, subsys, wcn_dev->wcn_open_status);
 		wcn_show_dev_status("after stop1");
 		mutex_unlock(&wcn_dev->power_lock);
 		return 0;
 	}
 
-	WCN_INFO("%s,subsys=%d do stop\n", wcn_dev->name, subsys);
+	WCN_DBG("%s,subsys=%d do stop\n", wcn_dev->name, subsys);
 	if (is_marlin)
 		wcn_set_loopcheck_state(false);
 
@@ -3988,7 +3988,7 @@ int stop_integrate_wcn_module(u32 subsys)
 
 	wcn_dev->power_state = WCN_POWER_STATUS_OFF;
 
-	WCN_INFO("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
+	WCN_DBG("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
 		 wcn_dev->name, wcn_dev->wcn_open_status,
 		 wcn_dev->power_state, subsys);
 
@@ -4019,7 +4019,7 @@ force_poweroff:
 	if (is_marlin)
 		wcn_set_module_state(false);
 
-	WCN_INFO("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
+	WCN_DBG("%s open_status = %d,power_state=%d,stop subsys=%d!\n",
 		 wcn_dev->name, wcn_dev->wcn_open_status,
 		 wcn_dev->power_state, subsys);
 

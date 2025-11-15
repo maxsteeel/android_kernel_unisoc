@@ -183,7 +183,7 @@ void sprd_dsi_init(struct sprd_dsi *dsi)
 
 	div = DIV_ROUND_UP(ctx->byte_clk, ctx->esc_clk);
 	dsi_hal_tx_escape_division(dsi, div);
-	pr_info("escape clock divider = %d\n", div);
+	pr_debug("escape clock divider = %d\n", div);
 
 	max_rd_time = ctx->max_rd_time * ctx->byte_clk;
 	do_div(max_rd_time, 1000000);

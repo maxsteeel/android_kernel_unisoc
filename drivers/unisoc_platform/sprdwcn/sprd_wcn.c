@@ -47,7 +47,7 @@ static int wcn_resume(struct device *dev)
 	int ret;
 	struct sipc_chn_info *sipc_chn;
 
-	WCN_INFO("%s enter\n", __func__);
+	WCN_DBG("%s enter\n", __func__);
 	for (chn = 0; chn < SIPC_CHN_NUM; chn++) {
 		sipc_chn = wcn_sipc_channel_get(chn);
 		if ((sipc_chn != NULL) && (sipc_chn->ops != NULL) &&
@@ -69,7 +69,7 @@ static int wcn_suspend(struct device *dev)
 	struct sipc_chn_info *sipc_chn;
 	struct wcn_match_data *g_match_config = get_wcn_match_config();
 
-	WCN_INFO("%s enter\n", __func__);
+	WCN_DBG("%s enter\n", __func__);
 
 	if (g_match_config && g_match_config->unisoc_wcn_m3lite && is_ums9620)
 		marlin_avdd18_dcxo_enable(false);

@@ -300,7 +300,7 @@ int mdbg_loopcheck_read(int channel, struct mbuf_t *head,
 		memcpy(mdbg_proc->loopcheck.buf, head->buf, head->len);
 		mdbg_proc->loopcheck.rcv_len = head->len;
 	}
-	WCN_INFO("rx:%s\n", (char *)(mdbg_proc->loopcheck.buf));
+	WCN_DBG("rx:%s\n", (char *)(mdbg_proc->loopcheck.buf));
 	mdbg_proc->fail_count = 0;
 	complete(&mdbg_proc->loopcheck.completed);
 	complete_kernel_loopcheck();
@@ -335,7 +335,7 @@ int mdbg_at_cmd_read(int channel, struct mbuf_t *head,
 		memset(mdbg_proc->at_cmd.buf, 0, MDBG_AT_CMD_SIZE);
 		memcpy(mdbg_proc->at_cmd.buf, head->buf + pub_head_rsv, puh->len);
 		mdbg_proc->at_cmd.rcv_len = puh->len;
-		WCN_INFO("at cmd read:%s\n",
+		WCN_DBG("at cmd read:%s\n",
 			(char *)(mdbg_proc->at_cmd.buf));
 		complete(&mdbg_proc->at_cmd.completed);
 		notify_at_cmd_finish(mdbg_proc->at_cmd.buf, mdbg_proc->at_cmd.rcv_len);
@@ -344,7 +344,7 @@ int mdbg_at_cmd_read(int channel, struct mbuf_t *head,
 		memset(mdbg_proc->at_cmd.buf, 0, MDBG_AT_CMD_SIZE);
 		memcpy(mdbg_proc->at_cmd.buf, head->buf, head->len);
 		mdbg_proc->at_cmd.rcv_len = head->len;
-		WCN_INFO("AT cmd read:%s\n",
+		WCN_DBG("AT cmd read:%s\n",
 			 (char *)(mdbg_proc->at_cmd.buf));
 		complete(&mdbg_proc->at_cmd.completed);
 		notify_at_cmd_finish(mdbg_proc->at_cmd.buf, mdbg_proc->at_cmd.rcv_len);
@@ -410,7 +410,7 @@ static int loopcheck_prepare_buf(int chn, struct mbuf_t **head,
 {
 	int ret;
 
-	WCN_INFO("%s: chn=%d, num=%d\n", __func__, chn, *num);
+	WCN_DBG("%s: chn=%d, num=%d\n", __func__, chn, *num);
 	ret = sprdwcn_bus_list_alloc(chn, head, tail, num);
 
 	return ret;
@@ -421,7 +421,7 @@ static int at_cmd_prepare_buf(int chn, struct mbuf_t **head,
 {
 	int ret;
 
-	WCN_INFO("%s: chn=%d, num=%d\n", __func__, chn, *num);
+	WCN_DBG("%s: chn=%d, num=%d\n", __func__, chn, *num);
 	ret = sprdwcn_bus_list_alloc(chn, head, tail, num);
 
 	return ret;
@@ -432,7 +432,7 @@ static int assert_prepare_buf(int chn, struct mbuf_t **head,
 {
 	int ret;
 
-	WCN_INFO("%s: chn=%d, num=%d\n", __func__, chn, *num);
+	WCN_DBG("%s: chn=%d, num=%d\n", __func__, chn, *num);
 	ret = sprdwcn_bus_list_alloc(chn, head, tail, num);
 
 	return ret;
@@ -590,7 +590,7 @@ static ssize_t mdbg_proc_read(struct file *filp,
 							"poweroff", 8))
 					WCN_ERR("read loopcheck error\n");
 				len = 8;
-				WCN_INFO("loopcheck poweroff\n");
+				WCN_DBG("loopcheck poweroff\n");
 			}
 			return len;
 		}
@@ -611,7 +611,7 @@ static ssize_t mdbg_proc_read(struct file *filp,
 					"loopcheck_ack", 13))
 					return -EFAULT;
 				loopcheck_ready_clear();
-				WCN_INFO("CP power on first time\n");
+				WCN_DBG("CP power on first time\n");
 				len = 13;
 			} else if (mdbg_rx_count_change()) {
 			/* fix the error(ack slow),use rx count to verify CP */
@@ -629,7 +629,7 @@ static ssize_t mdbg_proc_read(struct file *filp,
 				if (strncmp(mdbg_proc->loopcheck.buf,
 					"loopcheck_ack", 13) != 0)
 					mdbg_proc->fail_count++;
-				WCN_INFO("loopcheck status:%d\n",
+				WCN_DBG("loopcheck status:%d\n",
 					mdbg_proc->fail_count);
 			}
 
@@ -642,7 +642,7 @@ static ssize_t mdbg_proc_read(struct file *filp,
 			if (copy_to_user((void __user *)buf, "poweroff", 8))
 				return -EFAULT;
 			len = 8;
-			WCN_INFO("mdbg loopcheck poweroff\n");
+			WCN_DBG("mdbg loopcheck poweroff\n");
 		}
 		memset(mdbg_proc->loopcheck.buf, 0, MDBG_LOOPCHECK_SIZE);
 		mdbg_proc->loopcheck.rcv_len = 0;

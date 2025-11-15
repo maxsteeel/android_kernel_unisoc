@@ -32,7 +32,6 @@
 
 #define SIPC_SBUF_HEAD_RESERV 4
 #define SIPC_SBLOCK_HEAD_RESERV 0
-#define WCN_SIPC_DBG
 
 #define mbuf_list_iter(head, num, pos, posn) \
 	for (pos = head, posn = 0; posn < num && pos; posn++, pos = pos->next)

@@ -178,7 +178,7 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	}
 	ktime_get_real_ts64(&val_end);
 	time_end = val_end.tv_sec * 1000000LL + val_end.tv_nsec / 1000;
-	pr_info("%s,tid:%-5d, size:%8ld, time:%11lldus, pool:%ld, bud: %ld, ord 8:%d, 4:%d, 0:%d\n",
+	pr_debug("%s,tid:%-5d, size:%8ld, time:%11lldus, pool:%ld, bud: %ld, ord 8:%d, 4:%d, 0:%d\n",
 		__func__, current->pid, size, time_end - time_start, pool_sz, buddy_sz,
 		buddy_orders[0], buddy_orders[1], buddy_orders[2]);
 	table = kmalloc(sizeof(*table), GFP_KERNEL);

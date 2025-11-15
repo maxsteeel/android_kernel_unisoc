@@ -84,7 +84,7 @@ static int shub_send_data(struct shub_data *sensor, u8 *buf, u32 len)
 		if (nwrite > 0)
 			sent_len += nwrite;
 		if (nwrite < len || nwrite < 0)
-			dev_err(&sensor->sensor_pdev->dev,
+			dev_dbg(&sensor->sensor_pdev->dev,
 				"nwrite=%d,len=%d,sent_len=%d,timeout=%dms\n",
 				nwrite, len, sent_len, timeout);
 		/* only handle boot exception */
@@ -222,7 +222,7 @@ static int shub_sipc_channel_read(struct shub_data *sensor)
 		if (nread < 0) {
 			retry++;
 			msleep(500);
-			dev_err(&sensor->sensor_pdev->dev,
+			dev_dbg(&sensor->sensor_pdev->dev,
 				"nread=%d,retry=%d\n", nread, retry);
 			if (retry > 20)
 				break;
@@ -559,7 +559,7 @@ static ssize_t enable_store(struct device *dev,
 	int handle, enabled;
 	enum shub_subtype_id subtype;
 
-	dev_info(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
+	dev_dbg(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
 	if (sensor->mcu_mode <= SHUB_CALIDOWNLOAD) {
 		dev_info(&sensor->sensor_pdev->dev,
 			 "[%s]mcu_mode == %d!\n", __func__, sensor->mcu_mode);
@@ -568,7 +568,7 @@ static ssize_t enable_store(struct device *dev,
 
 	if (sscanf(buf, "%d %d\n", &handle, &enabled) != 2)
 		return -EINVAL;
-	dev_info(&sensor->sensor_pdev->dev,
+	dev_dbg(&sensor->sensor_pdev->dev,
 		 "handle = %d, enabled = %d\n", handle, enabled);
 	subtype = (enabled == 0) ? SHUB_SET_DISABLE_SUBTYPE :
 		SHUB_SET_ENABLE_SUBTYPE;
@@ -591,7 +591,7 @@ static ssize_t batch_store(struct device *dev, struct device_attribute *attr,
 	int flag = 0;
 	struct sensor_batch_cmd batch_cmd;
 
-	dev_info(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
+	dev_dbg(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
 	if (sensor->mcu_mode <= SHUB_CALIDOWNLOAD) {
 		dev_info(&sensor->sensor_pdev->dev,
 			 "mcu_mode == %d!\n",  sensor->mcu_mode);
@@ -603,7 +603,7 @@ static ssize_t batch_store(struct device *dev, struct device_attribute *attr,
 		   &batch_cmd.report_rate,
 		   &batch_cmd.batch_timeout) != 4)
 		return -EINVAL;
-	dev_info(&sensor->sensor_pdev->dev,
+	dev_dbg(&sensor->sensor_pdev->dev,
 		 "handle = %d, rate = %d, batch_latency = %lld\n",
 		 batch_cmd.handle,
 		 batch_cmd.report_rate, batch_cmd.batch_timeout);
@@ -720,7 +720,7 @@ static ssize_t calibrator_cmd_store(struct device *dev,
 		return count;
 	}
 
-	dev_info(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
+	dev_dbg(&sensor->sensor_pdev->dev, "buf=%s\n", buf);
 	len = sscanf(buf, "%d %d %d %d\n", &sensor->cal_cmd, &sensor->cal_id,
 		     &sensor->cal_type, &sensor->golden_sample);
 	/* The 3rd and 4th parameters are optional. */
@@ -728,7 +728,7 @@ static ssize_t calibrator_cmd_store(struct device *dev,
 		return -EINVAL;
 	err = set_calib_cmd(sensor, sensor->cal_cmd, sensor->cal_id,
 			    sensor->cal_type, sensor->golden_sample);
-	dev_info(&sensor->sensor_pdev->dev, "cmd:%d,id:%d,type:%d,golden:%d\n",
+	dev_dbg(&sensor->sensor_pdev->dev, "cmd:%d,id:%d,type:%d,golden:%d\n",
 		 sensor->cal_cmd, sensor->cal_id, sensor->cal_type,
 		 sensor->golden_sample);
 	if (err < 0)
@@ -759,7 +759,7 @@ static ssize_t calibrator_data_show(struct device *dev,
 		return err;
 	}
 
-	dev_info(&sensor->sensor_pdev->dev, "cmd:%d,id:%d,type:%d\n",
+	dev_dbg(&sensor->sensor_pdev->dev, "cmd:%d,id:%d,type:%d\n",
 		 sensor->cal_cmd, sensor->cal_id, sensor->cal_type);
 	if (sensor->cal_cmd == CALIB_DATA_READ) {
 			memcpy(buf, sensor->cali_store.udata, CALIBRATION_DATA_LENGTH);
@@ -1386,7 +1386,7 @@ static int shub_probe(struct platform_device *pdev)
 	if (error) {
 		mcu->sipc_sensorhub_id = SIPC_ID_PM_SYS;
 	}
-	dev_info(&pdev->dev, "sipc_sensorhub_id=%u\n", mcu->sipc_sensorhub_id);
+	dev_dbg(&pdev->dev, "sipc_sensorhub_id=%u\n", mcu->sipc_sensorhub_id);
 
 	mcu->mcu_mode = SHUB_BOOT;
 	dev_set_drvdata(&pdev->dev, mcu);

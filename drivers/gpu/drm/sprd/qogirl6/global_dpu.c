@@ -220,13 +220,13 @@ static int dpu_clk_init(struct dpu_context *ctx)
 	dpu_core_val = calc_dpu_core_clk();
 
 	if (dpu->dsi->ctx.dpi_clk_div) {
-		pr_info("DPU_CORE_CLK = %u, DPI_CLK_DIV = %d\n",
+		pr_debug("DPU_CORE_CLK = %u, DPI_CLK_DIV = %d\n",
 				dpu_core_val, dpu->dsi->ctx.dpi_clk_div);
 	} else {
 		dpi_src_val = calc_dpi_clk_src(ctx->vm.pixelclock);
-		pr_info("DPU_CORE_CLK = %u, DPI_CLK_SRC = %u\n",
+		pr_debug("DPU_CORE_CLK = %u, DPI_CLK_SRC = %u\n",
 				dpu_core_val, dpi_src_val);
-		pr_info("dpi clock is %lu\n", ctx->vm.pixelclock);
+		pr_debug("dpi clock is %lu\n", ctx->vm.pixelclock);
 	}
 
 	clk_src = val_to_clk(clk_ctx, dpu_core_val);

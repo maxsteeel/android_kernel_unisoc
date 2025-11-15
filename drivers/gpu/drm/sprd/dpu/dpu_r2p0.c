@@ -417,7 +417,7 @@ static void dpu_stop(struct dpu_context *ctx)
 
 	dpu_wait_stop_done(ctx);
 
-	pr_info("dpu stop\n");
+	pr_debug("dpu stop\n");
 }
 
 static void dpu_run(struct dpu_context *ctx)
@@ -426,7 +426,7 @@ static void dpu_run(struct dpu_context *ctx)
 
 	ctx->stopped = false;
 
-	pr_info("dpu run\n");
+	pr_debug("dpu run\n");
 
 	if (ctx->if_type == SPRD_DPU_IF_EDPI) {
 		/*
